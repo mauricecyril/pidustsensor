@@ -4,7 +4,20 @@
 # 2015-11-22
 # Public Domain
 
+# On the Raspbery Pi make sure to install pigpio using Apt
+# $ sudo apt-get install pigpio python-pigpio python3-pigpio
+#
+# Once installed make sure to run the pidpio daemon before
+# running this script
+#
+# $ sudo pigpiod
+# $ python pidustsensor.py
+# or
+# $ python3 pidustsensor.py
+
 import pigpio
+# also import writer for writing CSV logs
+from csv import writer
 
 class sensor:
    """
@@ -88,22 +101,37 @@ class sensor:
 
 if __name__ == "__main__":
 
+   from datetime import datetime
    import time
    import pigpio
    import PPD42NS
 
-   pi = pigpio.pi() # Connect to Pi.
+   pi = pigpio.pi() # Connect to a remote pi or 'localhost'
 
-   s = PPD42NS.sensor(pi, 24)
+   # Select the pi GPIO pin that is connected to the sensor
+   # Make sure to use the Broadcom GPIO Pin number
+   s = PPD42NS.sensor(pi, 24) 
 
-   while True:
+   with open('airqualitylog.csv', 'w', newline='') as f:
+      data_writer = writer(f)
+      #write header for csv log file
+      data_writer.writerow(['GPIO','Date Time Stamp', 'Ratio', 'Concentration (PCS  per 0.01 cubic foot)'])
+   
+      while True:
 
-      time.sleep(1) # Use 30 for a properly calibrated reading.
+         time.sleep(30) # Use 30 for a properly calibrated reading.
 
-      g, r, c = s.read()
-
-      print("gpio={} ratio={:.1f} conc={} pcs per 0.01 cubic foot".
-         format(g, r, int(c)))
+         # Read the values from the sensor
+         g, r, c = s.read()
+         # Store values in a variable using imperial measures
+         imperialdata = g, timestamp, r, int(c)
+         
+         # Store values in CSV log file
+         data_writer.writerow(imperialdata) 
+         
+         # Print imperial values to console
+         print("gpio={} timestamp={} ratio={:.1f} conc={} pcs per 0.01 cubic foot".
+            format(g, timestamp, r, int(c)))
 
    pi.stop() # Disconnect from Pi.
 

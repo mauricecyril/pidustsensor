@@ -1,6 +1,45 @@
 # pidustsensor
 Air Quality Monitor using the GROVE / Shinyei PPD42NS dust sensor and the Raspberry Pi
 
+Pin Layout
+      +-----------------------------------------+
+      |                                         |
+      |  Shinyei PPD42  / Grove Dust Sensor     |
+      |  (Sensor facing you)                    |           
+      |                                         |
+      |    |+|        |+|                       |          
+      |    SL2 POT    CN1 POT                   |
+      +-----------------------------------------+
+      |    Pin Number                           |
+      |                                         |          
+      |     |     |     |     |     |           |
+      |     5     4     3     2     1           |       
+      |     |     |     |     |     |           |
+      +-----------------------------------------+
+            |     |     |     |     | 
+            |     |     |     |  GND (Black)
+            |     |     |     |     | 
+            |     |  5V (Red) |     | 
+            |     |     |     |     | 
+            |   PM2.5   |     |     |
+            |     |     |     |     | 
+            |     |     |   PM1.0   |
+            |     |     |     |     |
+       Threshold  |     |     |     |
+       for Pin 2  |     |     |     | 
+            |     |     |     |     | 
+            |     |     |     |     | 
+ 
+            
+CN : S5B-EH(JST)
+1 : COMMON(GND) [Black Wire on Grove Sensor]
+2 : OUTPUT(P2) [Not used on Grove Connectr] [Can be used for PM1.0]
+3 : INPUT(5VDC 90mA) [Red Wire on Grove Sensor]
+4 : OUTPUT(P1) [Yellow Wire on Grove Sensor] [Used for PM2.5 mesurements]
+5 : INPUT(T1)･･･FOR THRESHOLD FOR [P2] [Not used on Grove Connector]
+
+
+
 References: 
 http://wiki.seeedstudio.com/Grove-Dust_Sensor/ 
 https://github.com/Seeed-Studio/Grove_Dust_Sensor
@@ -88,4 +127,38 @@ https://github.com/MattSchroyer/DustDuino/blob/master/DustDuinoSerial.ino
       double vol25 = (4.0/3.0)*pi*pow(r25,3);
       double mass25 = density*vol25;
       float concSmall = (PM25count)*K*mass25;
+
+
+
+=================================================================
+Wiring
+
+One method is to use the wiriing method using a voltage divider described by 
+https://github.com/otonchev/grove_dust 
+The Shinyei sensor is connected to the GPIO on the Raspberry Pi in the following
+manner:
+
+
+          +------------------+
+          |                  |
+          |  Shinyei PPD42   |
+          |                  |
+          +------------------+
+            |      |       |
+            | black|       |yellow          _____
+         red|      |       +---------------[_____]-----+
+            |      |                         2kOm      |
+            |      |               _____               |
+            |      +--------+-----[_____]--------------+
+            |               |       3kOm               |
+            *               *                          *
+       GPIOPin2(5V)    GPIOPin6(GND)             GPIOPin11(17)
+
+
+Another method is to use a bi-directional logicl level converter that allows you to use a 5v sensor with the 3.3v on the Pi GPIO pins.
+https://learn.sparkfun.com/tutorials/bi-directional-logic-level-converter-hookup-guide
+https://www.adafruit.com/product/757
+
+
+Third option is to Pi Hat or Phat like the Pirimoni's Envirohat https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-enviro-phat however this might still require a voltage divider: https://learn.pimoroni.com/static/repos/learn/sandyj/enviro_phat_voltage_divider.png
 

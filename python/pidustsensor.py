@@ -149,10 +149,10 @@ class sensor:
                         [250.5, 350.4, 301, 400],\
                         [350.5, 500.4, 401, 500], ]
                         
-        C=ugm3
+        C = ugm3
         
         if C > 500.4:
-            aqi=500
+            aqi = 500
 
         else:
            for breakpoint in cbreakpointspm25:
@@ -199,18 +199,18 @@ if __name__ == "__main__":
          # get the gpio, ratio and concentration in particles / 0.01 ft3
          g, r, c = s.read()
          
-         if (c==1114000.62):
+         if (c == 1114000.62):
             print("Error\n")
             continue
 
          
          # Convert to SI units
          # Convert concentration of PM2.5 particles per 0.01 cubic feet to ug/ metre cubed
-         concentration_ugm3 = s.pcs_to_ugm3(c)
+         concentration_ugm3 = pcs_to_ugm3(c)
          
          # convert SI units to US AQI
          # input should be 24 hour average of ugm3, not instantaneous reading
-         aqi = s.ugm3_to_aqi(concentration_ugm3)
+         aqi = ugm3_to_aqi(concentration_ugm3)
          
          
          # Store values in a variable

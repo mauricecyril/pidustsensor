@@ -1,7 +1,9 @@
 # pidustsensor
 Air Quality Monitor using the GROVE / Shinyei PPD42NS dust sensor and the Raspberry Pi
 
-References: http://wiki.seeedstudio.com/Grove-Dust_Sensor/ https://github.com/Seeed-Studio/Grove_Dust_Sensor
+References: 
+http://wiki.seeedstudio.com/Grove-Dust_Sensor/ 
+https://github.com/Seeed-Studio/Grove_Dust_Sensor
 
 https://indiaairquality.com/2014/12/14/building-pickle-jr-the-low-cost-networked-pm2-5-monitor-part-2/ 
 https://indiaairquality.com/2014/12/14/measuring-the-pickle-jr-a-modified-ppd42-with-an-attached-fan/ 

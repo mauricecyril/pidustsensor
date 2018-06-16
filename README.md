@@ -100,9 +100,12 @@ http://aqicn.org/api/sensor/
 
 
 =================================================================
-Calucations used on PI
+
+Calculations used on PI
+
             ratio = float(self._low_ticks)/float(interval)*100.0
             conc = 1.1*pow(ratio,3)-3.8*pow(ratio,2)+520*ratio+0.62;
+            
 
 Calculations used on Arduino
 https://github.com/MattSchroyer/DustDuino/blob/master/DustDuinoSerial.ino

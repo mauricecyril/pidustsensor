@@ -22,3 +22,5 @@ Some good reference on how to calculate readings using the pi and the primary so
 http://abyz.co.uk/rpi/pigpio/examples.html 
 https://github.com/andy-pi/weather-monitor/blob/master/air_quality.py 
 https://github.com/andy-pi/weather-monitor/blob/master/pigpio.py
+
+================================================================

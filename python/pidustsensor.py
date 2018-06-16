@@ -104,32 +104,33 @@ class sensor:
          self._last_tick = tick
          
    def pcs_to_ugm3(self, concentration_pcf):
-        '''
-        Convert concentration of PM2.5 particles per 0.01 cubic feet to µg/ metre cubed
-        this method outlined by Drexel University students (2009) and is an approximation
-        does not contain correction factors for humidity and rain
-        '''
+      '''
+      Convert concentration of PM2.5 particles per 0.01 cubic feet to µg/ metre cubed
+      this method outlined by Drexel University students (2009) and is an approximation
+      does not contain correction factors for humidity and rain
+      '''
         
       if concentration_pcf < 0:
          raise ValueError('Concentration cannot be a negative number')
         
-         # Assume all particles are spherical, with a density of 1.65E12 µg/m3
-         densitypm25 = 1.65 * math.pow(10, 12)
+      # Assume all particles are spherical, with a density of 1.65E12 µg/m3
+      densitypm25 = 1.65 * math.pow(10, 12)
         
-         # Assume the radius of a particle in the PM2.5 channel is .44 µm
-         rpm25 = 0.44 * math.pow(10, -6)
+      # Assume the radius of a particle in the PM2.5 channel is .44 µm
+      rpm25 = 0.44 * math.pow(10, -6)
         
-         # Volume of a sphere = 4/3 * pi * radius^3
-         volpm25 = (4/3) * math.pi * (rpm25**3)
+      # Volume of a sphere = 4/3 * pi * radius^3
+      volpm25 = (4/3) * math.pi * (rpm25**3)
         
-         # mass = density * volume
-         masspm25 = densitypm25 * volpm25
+      # mass = density * volume
+      masspm25 = densitypm25 * volpm25
         
-         # parts/m3 =  parts/foot3 * 3531.5
-         # µg/m3 = parts/m3 * mass in µg
-         concentration_ugm3 = concentration_pcf * 3531.5 * masspm25
+      # parts/m3 =  parts/foot3 * 3531.5
+      # µg/m3 = parts/m3 * mass in µg
+      concentration_ugm3 = concentration_pcf * 3531.5 * masspm25
         
-         return concentration_ugm3
+      return concentration_ugm3
+
 
    def ugm3_to_aqi(self, ugm3):
       '''

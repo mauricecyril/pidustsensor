@@ -24,3 +24,12 @@ https://github.com/andy-pi/weather-monitor/blob/master/air_quality.py
 https://github.com/andy-pi/weather-monitor/blob/master/pigpio.py
 
 ================================================================
+
+For visualization
+https://www.fullstackpython.com/bokeh.html
+https://www.fullstackpython.com/blog/responsive-bar-charts-bokeh-flask-python-3.html
+https://www.fullstackpython.com/green-unicorn-gunicorn.html
+
+
+================================================================
+

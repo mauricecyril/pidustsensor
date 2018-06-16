@@ -33,3 +33,14 @@ https://www.fullstackpython.com/green-unicorn-gunicorn.html
 
 ================================================================
 
+For information on how to use both the PM2.5 and the PM10 lines on the sensor see:
+http://aqicn.org/api/shinyei/
+https://github.com/aqicn/shinyei-lpo
+https://github.com/aqicn/shinyei-lpo/blob/master/shinyei-lpo-reader.py
+
+
+http://aqicn.org/faq/2013-02-02/why-is-pm25-often-higher-than-pm10/
+
+For how to contribute to World Air Quality Index
+http://aqicn.org/api/sensor/
+

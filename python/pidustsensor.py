@@ -201,14 +201,14 @@ if __name__ == "__main__":
       
          
             # Store values in a variable
-            aqdata = g, timestamp, r, int(c), concentration_ugm3, aqi
+            aqdata = g, timestamp, r, int(c), int(concentration_ugm3), int(aqi)
          
             # Store values in CSV log file
             data_writer.writerow(aqdata) 
          
             # Print values to console
             print("gpio={} timestamp={} ratio={:.1f} conc={} particles per 0.01 cubic foot concSI={} particles per cubic metre aqi={}".
-                format(g, timestamp, r, int(c)), concentration_ugm3, aqi)
+                format(g, timestamp, r, int(c), int(concentration_ugm3), int(aqi))
          
             # Print
             

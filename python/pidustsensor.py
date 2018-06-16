@@ -3,6 +3,8 @@
 # PPD42NS.py
 # 2015-11-22
 # Public Domain
+# Original Script from http://abyz.co.uk/rpi/pigpio/examples.html
+# Adaptions from https://github.com/andy-pi/weather-monitor/blob/master/air_quality.py
 
 # On the Raspbery Pi make sure to install pigpio using Apt
 # $ sudo apt-get install pigpio python-pigpio python3-pigpio
@@ -15,6 +17,8 @@
 # or
 # $ python3 pidustsensor.py
 
+from __future__ import print_function
+import math
 import pigpio
 # also import writer for writing CSV logs
 from csv import writer
@@ -98,6 +102,69 @@ class sensor:
       else:
          self._start_tick = tick
          self._last_tick = tick
+         
+   def pcs_to_ugm3(self, concentration_pcf):
+        '''
+        Convert concentration of PM2.5 particles per 0.01 cubic feet to µg/ metre cubed
+        this method outlined by Drexel University students (2009) and is an approximation
+        does not contain correction factors for humidity and rain
+        '''
+        
+        if concentration_pcf < 0:
+           raise ValueError('Concentration cannot be a negative number')
+        
+        # Assume all particles are spherical, with a density of 1.65E12 µg/m3
+        densitypm25 = 1.65 * math.pow(10, 12)
+        
+        # Assume the radius of a particle in the PM2.5 channel is .44 µm
+        rpm25 = 0.44 * math.pow(10, -6)
+        
+        # Volume of a sphere = 4/3 * pi * radius^3
+        volpm25 = (4/3) * math.pi * (rpm25**3)
+        
+        # mass = density * volume
+        masspm25 = densitypm25 * volpm25
+        
+        # parts/m3 =  parts/foot3 * 3531.5
+        # µg/m3 = parts/m3 * mass in µg
+        concentration_ugm3 = concentration_pcf * 3531.5 * masspm25
+        
+        return concentration_ugm3
+
+
+   def ugm3_to_aqi(self, ugm3):
+        '''
+        Convert concentration of PM2.5 particles in µg/ metre cubed to the USA 
+        Environment Agency Air Quality Index - AQI
+        https://en.wikipedia.org/wiki/Air_quality_index
+	Computing_the_AQI
+        https://github.com/intel-iot-devkit/upm/pull/409/commits/ad31559281bb5522511b26309a1ee73cd1fe208a?diff=split
+        '''
+        
+        cbreakpointspm25 = [ [0.0, 12, 0, 50],\
+                        [12.1, 35.4, 51, 100],\
+                        [35.5, 55.4, 101, 150],\
+                        [55.5, 150.4, 151, 200],\
+                        [150.5, 250.4, 201, 300],\
+                        [250.5, 350.4, 301, 400],\
+                        [350.5, 500.4, 401, 500], ]
+                        
+        C=ugm3
+        
+        if C > 500.4:
+            aqi=500
+
+        else:
+           for breakpoint in cbreakpointspm25:
+               if breakpoint[0] <= C <= breakpoint[1]:
+                   Clow = breakpoint[0]
+                   Chigh = breakpoint[1]
+                   Ilow = breakpoint[2]
+                   Ihigh = breakpoint[3]
+                   aqi=(((Ihigh-Ilow)/(Chigh-Clow))*(C-Clow))+Ilow
+        
+        return aqi
+      
 
 if __name__ == "__main__":
 
@@ -110,28 +177,46 @@ if __name__ == "__main__":
 
    # Select the pi GPIO pin that is connected to the sensor
    # Make sure to use the Broadcom GPIO Pin number
-   s = PPD42NS.sensor(pi, 24) 
+   s = PPD42NS.sensor(pi, 8) 
 
    with open('airqualitylog.csv', 'w', newline='') as f:
       data_writer = writer(f)
       #write header for csv log file
-      data_writer.writerow(['GPIO','Date Time Stamp', 'Ratio', 'Concentration (PCS  per 0.01 cubic foot)'])
+      data_writer.writerow(['GPIO','Date Time Stamp', 'Ratio', 'Concentration (PCS  per 0.01 cubic foot)', 'Concentration (PCS per cubic metre)', 'US AQI (Should be average of a 24h reading)'])
    
       while True:
 
          time.sleep(30) # Use 30 for a properly calibrated reading.
 
          # Read the values from the sensor
+         # get the gpio, ratio and concentration in particles / 0.01 ft3
          g, r, c = s.read()
-         # Store values in a variable using imperial measures
-         imperialdata = g, timestamp, r, int(c)
+         
+         if (c==1114000.62):
+            print("Error\n")
+            continue
+
+         
+         # Convert to SI units
+         # Convert concentration of PM2.5 particles per 0.01 cubic feet to ug/ metre cubed
+         concentration_ugm3 = s.pcs_to_ugm3(c)
+         
+         # convert SI units to US AQI
+         # input should be 24 hour average of ugm3, not instantaneous reading
+         aqi = s.ugm3_to_aqi(concentration_ugm3)
+         
+         
+         # Store values in a variable
+         aqdata = g, timestamp, r, int(c), concentration_ugm3, aqi
          
          # Store values in CSV log file
-         data_writer.writerow(imperialdata) 
+         data_writer.writerow(aqdata) 
          
          # Print imperial values to console
-         print("gpio={} timestamp={} ratio={:.1f} conc={} pcs per 0.01 cubic foot".
-            format(g, timestamp, r, int(c)))
+         print("gpio={} timestamp={} ratio={:.1f} conc={} particles per 0.01 cubic foot concSI={} particles per cubic metre aqi={}".
+            format(g, timestamp, r, int(c)), concentration_ugm3, aqi)
+         
+         # Print 
 
    pi.stop() # Disconnect from Pi.
 

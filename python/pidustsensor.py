@@ -178,8 +178,15 @@ if __name__ == "__main__":
    # Select the pi GPIO pin that is connected to the sensor
    # Make sure to use the Broadcom GPIO Pin number
    s = PPD42NS.sensor(pi, 8) 
+   
+   # Option to prompt for filename:
+   ##logfilename = input("Please enter a name for the logfile.") 
+   ##with open(logfilename + '.csv', 'w', newline='') as f:
 
+   # Create a specific and static csv log file
    with open('airqualitylog.csv', 'w', newline='') as f:
+   # Remove the above line if you want to use the prompt for logfile name function
+		
       data_writer = writer(f)
       #write header for csv log file
       data_writer.writerow(['GPIO','Date Time Stamp', 'Ratio', 'Concentration (PCS  per 0.01 cubic foot)', 'Concentration (PCS per cubic metre)', 'US AQI (Should be average of a 24h reading)'])

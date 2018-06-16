@@ -103,68 +103,7 @@ class sensor:
          self._start_tick = tick
          self._last_tick = tick
          
-   def pcs_to_ugm3(self, concentration_pcf):
-      '''
-      Convert concentration of PM2.5 particles per 0.01 cubic feet to µg/ metre cubed
-      this method outlined by Drexel University students (2009) and is an approximation
-      does not contain correction factors for humidity and rain
-      '''
 
-      if concentration_pcf < 0:
-          raise ValueError('Concentration cannot be a negative number')
-        
-      # Assume all particles are spherical, with a density of 1.65E12 µg/m3
-      densitypm25 = 1.65 * math.pow(10, 12)
-        
-      # Assume the radius of a particle in the PM2.5 channel is .44 µm
-      rpm25 = 0.44 * math.pow(10, -6)
-        
-      # Volume of a sphere = 4/3 * pi * radius^3
-      volpm25 = (4/3) * math.pi * (rpm25**3)
-        
-      # mass = density * volume
-      masspm25 = densitypm25 * volpm25
-        
-      # parts/m3 =  parts/foot3 * 3531.5
-      # µg/m3 = parts/m3 * mass in µg
-      concentration_ugm3 = concentration_pcf * 3531.5 * masspm25
-        
-      return concentration_ugm3
-
-
-   def ugm3_to_aqi(self, ugm3):
-      '''
-      Convert concentration of PM2.5 particles in µg/ metre cubed to the USA 
-      Environment Agency Air Quality Index - AQI
-      https://en.wikipedia.org/wiki/Air_quality_index
-      Computing_the_AQI
-      https://github.com/intel-iot-devkit/upm/pull/409/commits/ad31559281bb5522511b26309a1ee73cd1fe208a?diff=split
-      '''
-        
-      cbreakpointspm25 = [ [0.0, 12, 0, 50],\
-                         [12.1, 35.4, 51, 100],\
-                         [35.5, 55.4, 101, 150],\
-                         [55.5, 150.4, 151, 200],\
-                         [150.5, 250.4, 201, 300],\
-                         [250.5, 350.4, 301, 400],\
-                         [350.5, 500.4, 401, 500], ]
-                        
-      C = ugm3
-        
-      if C > 500.4:
-         aqi = 500
-
-      else:
-         for breakpoint in cbreakpointspm25:
-            if breakpoint[0] <= C <= breakpoint[1]:
-               Clow = breakpoint[0]
-               Chigh = breakpoint[1]
-               Ilow = breakpoint[2]
-               Ihigh = breakpoint[3]
-               aqi=(((Ihigh-Ilow)/(Chigh-Clow))*(C-Clow))+Ilow
-      
-      return aqi
-      
 
 if __name__ == "__main__":
 
@@ -202,16 +141,60 @@ if __name__ == "__main__":
          if (c == 1114000.62):
             print("Error\n")
             continue
+	  
+	 if c < 0:
+            raise ValueError('Concentration cannot be a negative number')
 
-         
-         # Convert to SI units
-         # Convert concentration of PM2.5 particles per 0.01 cubic feet to ug/ metre cubed
-         concentration_ugm3 = s.pcs_to_ugm3(c)
-         
-         # convert SI units to US AQI
+         # Convert concentration of PM2.5 particles per 0.01 cubic feet to µg/ metre cubed
+         # this method outlined by Drexel University students (2009) and is an approximation
+         # does not contain correction factors for humidity and rain
+      
+	 # Assume all particles are spherical, with a density of 1.65E12 µg/m3
+         densitypm25 = 1.65 * math.pow(10, 12)
+        
+         # Assume the radius of a particle in the PM2.5 channel is .44 µm
+         rpm25 = 0.44 * math.pow(10, -6)
+        
+         # Volume of a sphere = 4/3 * pi * radius^3
+         volpm25 = (4/3) * math.pi * (rpm25**3)
+        
+         # mass = density * volume
+         masspm25 = densitypm25 * volpm25
+        
+         # parts/m3 =  parts/foot3 * 3531.5
+         # µg/m3 = parts/m3 * mass in µg
+         concentration_ugm3 = c * 3531.5 * masspm25
+      
+         # Convert concentration of PM2.5 particles in µg/ metre cubed to the USA 
+         # Environment Agency Air Quality Index - AQI
+         # https://en.wikipedia.org/wiki/Air_quality_index
+         # Computing_the_AQI
+         # https://github.com/intel-iot-devkit/upm/pull/409/commits/ad31559281bb5522511b26309a1ee73cd1fe208a?diff=split
          # input should be 24 hour average of ugm3, not instantaneous reading
-         aqi = s.ugm3_to_aqi(concentration_ugm3)
-         
+      
+        
+         cbreakpointspm25 = [ [0.0, 12, 0, 50],\
+                            [12.1, 35.4, 51, 100],\
+                            [35.5, 55.4, 101, 150],\
+                            [55.5, 150.4, 151, 200],\
+                            [150.5, 250.4, 201, 300],\
+                            [250.5, 350.4, 301, 400],\
+                            [350.5, 500.4, 401, 500], ]
+                        
+         C = concentration_ugm3
+        
+         if C > 500.4:
+            aqi = 500
+
+         else:
+            for breakpoint in cbreakpointspm25:
+               if breakpoint[0] <= C <= breakpoint[1]:
+                  Clow = breakpoint[0]
+                  Chigh = breakpoint[1]
+                  Ilow = breakpoint[2]
+                  Ihigh = breakpoint[3]
+                  aqi = (((Ihigh-Ilow)/(Chigh-Clow))*(C-Clow))+Ilow
+      
          
          # Store values in a variable
          aqdata = g, timestamp, r, int(c), concentration_ugm3, aqi

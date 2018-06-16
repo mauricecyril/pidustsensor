@@ -32,12 +32,19 @@ Pin Layout
             |     |     |     |     | 
  
             
+
 CN : S5B-EH(JST)
+
 1 : COMMON(GND) [Black Wire on Grove Sensor]
+
 2 : OUTPUT(P2) [Not used on Grove Connectr] [Can be used for PM1.0]
+
 3 : INPUT(5VDC 90mA) [Red Wire on Grove Sensor]
+
 4 : OUTPUT(P1) [Yellow Wire on Grove Sensor] [Used for PM2.5 mesurements]
+
 5 : INPUT(T1)･･･FOR THRESHOLD FOR [P2] [Not used on Grove Connector]
+
 
 
 

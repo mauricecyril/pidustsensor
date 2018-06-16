@@ -219,7 +219,7 @@ if __name__ == "__main__":
          # Store values in CSV log file
          data_writer.writerow(aqdata) 
          
-         # Print imperial values to console
+         # Print values to console
          print("gpio={} timestamp={} ratio={:.1f} conc={} particles per 0.01 cubic foot concSI={} particles per cubic metre aqi={}".
             format(g, timestamp, r, int(c)), concentration_ugm3, aqi)
          

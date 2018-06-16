@@ -1,5 +1,5 @@
 # pidustsensor
-Air Quality Monitor using the GROVE / Shinyei PPD42NS dust sensor and the Raspberry Pi
+Air Quality Monitor using the GROVE / Shinyei PPD42NS dust sensor and the Raspberry Pi 
 
 Pin Layout
       +-----------------------------------------+

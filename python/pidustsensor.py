@@ -138,6 +138,10 @@ if __name__ == "__main__":
             # get the gpio, ratio and concentration in particles / 0.01 ft3
             g, r, c = s.read()
             
+            # get the current time of the reading
+            timestamp = datetime.now()
+            
+            # do some checks on the concentration reading and print errors
             if (c == 1114000.62):
                 print("Error\n")
                 continue

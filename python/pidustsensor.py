@@ -109,9 +109,9 @@ class sensor:
       this method outlined by Drexel University students (2009) and is an approximation
       does not contain correction factors for humidity and rain
       '''
-        
+
       if concentration_pcf < 0:
-         raise ValueError('Concentration cannot be a negative number')
+          raise ValueError('Concentration cannot be a negative number')
         
       # Assume all particles are spherical, with a density of 1.65E12 µg/m3
       densitypm25 = 1.65 * math.pow(10, 12)

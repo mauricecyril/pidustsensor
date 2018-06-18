@@ -321,7 +321,7 @@ if __name__ == "__main__":
             data_writer.writerow(aqdata) 
          
             # Print values to console
-            print("gpio={} timestamp={} ratio={:.1f} for PM10 conc={} PM2.5 particles per 0.01 cubic foot concCount={} PM2.5 Count concSI={} PM2.5 particles per cubic metre aqi={} ratio={:.1f} for PM10 conc={} PM10 particles per 0.01 cubic foot concCount={} PM10 Count concSI={} PM10 particles per cubic metre aqi={}" .
+            print("timestamp={} ratio={:.1f} for PM10 conc={} PM2.5 particles per 0.01 cubic foot concCount={} PM2.5 Count concSI={} PM2.5 particles per cubic metre aqi={} ratio={:.1f} for PM10 conc={} PM10 particles per 0.01 cubic foot concCount={} PM10 Count concSI={} PM10 particles per cubic metre aqi={}" .
                 format(timestamp, r25, int(c25), int(PM25count), int(concentration_ugm3_pm25), int(aqi25), r10, int(c10), int(PM10count), int(concentration_ugm3_pm10), int(aqi10)))
          
             # Print

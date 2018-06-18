@@ -5,6 +5,8 @@
 # Public Domain
 # Original Script from http://abyz.co.uk/rpi/pigpio/examples.html
 # Adaptions from https://github.com/andy-pi/weather-monitor/blob/master/air_quality.py
+# This version only reads from the 4th Pin on the sensor
+# and captures PM2.5 readings only.
 
 # On the Raspbery Pi make sure to install pigpio using Apt
 # $ sudo apt-get install pigpio python-pigpio python3-pigpio
@@ -16,6 +18,39 @@
 # $ python pidustsensor.py
 # or
 # $ python3 pidustsensor.py
+
+
+####### Instructions #######
+# +-----------------------------------------+
+#  |                                         |
+#  |  Shinyei PPD42NS  / Grove Dust Sensor   |
+#  |  (Sensor components facing you          |           
+#  |                                         |
+#  |    |+|        |+|                       |          
+#  |    SL2 POT    CN1 POT                   |
+#  +-----------------------------------------+
+#  |    Pin Number                           |
+#  |                                         |          
+#  |     |     |     |     |     |           |
+#  |     5     4     3     2     1           |       
+#  |     |     |     |     |     |           |
+#  +-----------------------------------------+
+#        |     |     |     |     | 
+#        |     |     |     |  GND (Black)
+#        |     |     |     |     | 
+#        |     |  5V (Red) |     | 
+#        |     |     |     |     | 
+#        |   PM2.5   |     |     |
+#        |     |     |     |     | 
+#        |     |     |   PM1.0   |
+#        |     |     |     |     |
+#   Threshold  |     |     |     |
+#   for Pin 2  |     |     |     | 
+#        |     |     |     |     | 
+#        |     |     |     |     | 
+
+
+
 
 from __future__ import print_function
 import math

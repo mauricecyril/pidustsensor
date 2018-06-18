@@ -6,7 +6,8 @@
 # Original Script from http://abyz.co.uk/rpi/pigpio/examples.html
 # Adaptions from https://github.com/andy-pi/weather-monitor/blob/master/air_quality.py
 
-####### Instructions #######
+
+####### Instructions ########################
 # On the Raspbery Pi make sure to install pigpio using Apt
 # $ sudo apt-get install pigpio python-pigpio python3-pigpio
 #
@@ -18,7 +19,7 @@
 # or
 # $ python3 pidustsensor.py
 
-####### Instructions #######
+####### Wiring Options ######################
 # +-----------------------------------------+
 #  |                                         |
 #  |  Shinyei PPD42NS  / Grove Dust Sensor   |
@@ -46,7 +47,100 @@
 #   for Pin 2  |     |     |     | 
 #        |     |     |     |     | 
 #        |     |     |     |     | 
+#
+# CN : S5B-EH(JST)
+# 1 : COMMON(GND) [Black Wire on Grove Sensor]
+# 2 : OUTPUT(P2) [Not used on Grove Connectr] [Can be used for PM1.0]
+# 3 : INPUT(5VDC 90mA) [Red Wire on Grove Sensor]
+# 4 : OUTPUT(P1) [Yellow Wire on Grove Sensor] [Used for PM2.5 mesurements]
+# 5 : INPUT(T1)･･･FOR THRESHOLD FOR [P2] [Not used on Grove Connector]
+#############################################
 
+
+
+# Using a Bi-Directional Logic Level Converter
+#  +-----------------------------------------+
+#  |                                         |
+#  |  Shinyei PPD42  / Grove Dust Sensor     |
+#  |  (Sensor facing you)                    |           
+#  |                                         |
+# |    |+|        |+|                       |          
+#  |    SL2 POT    CN1 POT                   |
+#  +-----------------------------------------+
+#  |    Pin Number                           |
+#  |                                         |          
+#  |     |     |     |     |     |           |
+#  |     5     4     3     2     1           |       
+#  |     |     |     |     |     |           |
+#  +-----------------------------------------+
+#        |     |     |     |     | 
+#        |     |     |     |  GND (Black)
+#        |     |     |     |     | 
+#        |     |  5V (Red) |     | 
+#        |     |     |     |     | 
+#        |   PM2.5   |     |     |
+#        |     |     |     |     |                 +-----------------------+
+#        |     |     |   PM1.0   |                 |Bi-Direction Logic     |
+#        |     |     |     |     |                 |Level Converter        |
+#        |     |     |     |     |                 +-----------------------+
+#   Threshold  |     |     |     +--(1) GND--------|  GND              GND |----[[RPi GND Pin]]
+#   for Pin 2  |     |     |                       |                       |
+#        |     |     |     +-----(2) PM1.0---------|  B1               A1  |----[[RPi GPIO Pin]]
+#        |     |     |                             |                       |
+#        |     |     +-----------(3) 5V------+-----|  HV               LV  |----[[RPi 3.3V Pin]]
+#        |     |                             |     |                       |
+#        |     |                             |     |                       |
+#        |     |             [[RPi 5V Pin]]--+     |                       |
+#        |     |                                   |                       |
+#        |     +-----------------(4) PM2.5---------|  B2               A2  |----[[RPi GPIO Pin]]
+#        |                                         +-----------------------+
+#        |
+#   [[Not used]]
+#
+#
+#############################################
+
+
+# Using a Voltage Divider (At your own risk)
+#
+#  +-----------------------------------------+
+#  |                                         |
+#  |  Shinyei PPD42  / Grove Dust Sensor     |
+#  |  (Sensor facing you)                    |           
+#  |                                         |
+#  |    |+|        |+|                       |          
+#  |    SL2 POT    CN1 POT                   |
+#  +-----------------------------------------+
+#  |    Pin Number                           |
+#  |                                         |          
+#  |     |     |     |     |     |           |
+#  |     5     4     3     2     1           |       
+#  |     |     |     |     |     |           |
+#  +-----------------------------------------+
+#        |     |     |     |     | 
+#        |     |     |     |  GND (Black)
+#        |     |     |     |     | 
+#        |     |  5V (Red) |     | 
+#        |     |     |     |     | 
+#        |   PM2.5   |     |     |
+#        |     |     |     |     | 
+#        |     |     |   PM1.0   |
+#        |     |     |     |     |     1 kΩ        1 kΩ resistor
+#   Threshold  |     |     |     +----[_____]-----[_____]------+--------> [[Pi GND Pin]]
+#   for Pin 2  |     |     |                                   |
+#        |     |     |     |                  1 kΩ resistor    |
+#        |     |     |     +----------------[_____]------------+--------> [[Pi GPIO Pin 7]]
+#        |     |     |                                         |
+#        |     |     +-----------------> [[Pi 5V Pin]]         |
+#        |     |                                               |
+#        |     |                              1 kΩ resistor    |
+#        |     +----------------------------[_____]------------+--------> [[Pi GPIO Pin 8]]
+#        |
+#        |
+#   [[Not used]]
+#
+#
+#############################################
 
 from __future__ import print_function
 import math

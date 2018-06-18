@@ -245,7 +245,7 @@ if __name__ == "__main__":
         
             # parts/m3 =  parts/foot3 * 3531.5
             # µg/m3 = parts/m3 * mass in µg
-            concentration_ugm3_pm10 = c10 * 3531.5 * masspm10 # Or use c10 instead of PM10count
+            concentration_ugm3_pm10 = PM10count * 3531.5 * masspm10 # Or use c10 instead of PM10count
 
 
 

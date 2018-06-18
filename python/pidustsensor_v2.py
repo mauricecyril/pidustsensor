@@ -167,7 +167,7 @@ if __name__ == "__main__":
 		
         data_writer = writer(f)
         #write header for csv log file
-        data_writer.writerow(['GPIO','Date Time Stamp', 'Ratio for PM2.5', 'PM2.5 Concentration (PCS  per 0.01 cubic foot)', 'Concentration Count for 2.5 PM', 'PM2.5 Concentration (PCS per cubic metre)', 'US AQI for PM2.5 (Should be average of a 24h reading)', 'Ratio for PM10', 'PM10 Concentration (PCS  per 0.01 cubic foot)', 'Concentration Count for 10 PM', 'PM10 Concentration (PCS per cubic metre)', 'US AQI for PM10 (Should be average of a 24h reading)'])
+        data_writer.writerow(['Date Time Stamp', 'Ratio for PM2.5', 'PM2.5 Concentration (PCS  per 0.01 cubic foot)', 'Concentration Count for 2.5 PM', 'PM2.5 Concentration (PCS per cubic metre)', 'US AQI for PM2.5 (Should be average of a 24h reading)', 'Ratio for PM10', 'PM10 Concentration (PCS  per 0.01 cubic foot)', 'Concentration Count for 10 PM', 'PM10 Concentration (PCS per cubic metre)', 'US AQI for PM10 (Should be average of a 24h reading)'])
         
         while True:
         
@@ -315,14 +315,14 @@ if __name__ == "__main__":
 
          
             # Store values in a variable
-            aqdata = g, timestamp, r25, int(c25), int(PM25count), int(concentration_ugm3_pm25), int(aqi25), r10, int(c10), int(PM10count), int(concentration_ugm3_pm10), int(aqi10)
+            aqdata = timestamp, r25, int(c25), int(PM25count), int(concentration_ugm3_pm25), int(aqi25), r10, int(c10), int(PM10count), int(concentration_ugm3_pm10), int(aqi10)
          
             # Store values in CSV log file
             data_writer.writerow(aqdata) 
          
             # Print values to console
-            print("gpio={} timestamp={} ratio={:.1f} for PM10 conc={} PM2.5 particles per 0.01 cubic foot =concCount={} PM2.5 Count concSI={} PM2.5 particles per cubic metre aqi={} ratio={:.1f} for PM10 conc={} PM10 particles per 0.01 cubic foot =concCount={} PM10 Count concSI={} PM10 particles per cubic metre aqi={}" .
-                format(g, timestamp, r25, int(c25), int(PM25count), int(concentration_ugm3_pm25), int(aqi25), r10, int(c10), int(PM10count), int(concentration_ugm3_pm10), int(aqi10)))
+            print("gpio={} timestamp={} ratio={:.1f} for PM10 conc={} PM2.5 particles per 0.01 cubic foot concCount={} PM2.5 Count concSI={} PM2.5 particles per cubic metre aqi={} ratio={:.1f} for PM10 conc={} PM10 particles per 0.01 cubic foot concCount={} PM10 Count concSI={} PM10 particles per cubic metre aqi={}" .
+                format(timestamp, r25, int(c25), int(PM25count), int(concentration_ugm3_pm25), int(aqi25), r10, int(c10), int(PM10count), int(concentration_ugm3_pm10), int(aqi10)))
          
             # Print
             

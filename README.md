@@ -203,9 +203,13 @@ manner:
 
 
 Another method is to use a bi-directional logicl level converter that allows you to use a 5v sensor with the 3.3v on the Pi GPIO pins.
+
 https://learn.sparkfun.com/tutorials/bi-directional-logic-level-converter-hookup-guide
+
 https://www.adafruit.com/product/757
 
 
-Third option is to Pi Hat or Phat like the Pirimoni's Envirohat https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-enviro-phat however this might still require a voltage divider: https://learn.pimoroni.com/static/repos/learn/sandyj/enviro_phat_voltage_divider.png
+Third option is to Pi Hat or Phat like the Pirimoni's Envirohat 
+https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-enviro-phat however this might still require a voltage divider: 
+https://learn.pimoroni.com/static/repos/learn/sandyj/enviro_phat_voltage_divider.png
 

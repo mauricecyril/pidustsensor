@@ -210,7 +210,83 @@ https://learn.sparkfun.com/tutorials/bi-directional-logic-level-converter-hookup
 https://www.adafruit.com/product/757
 
 
+      +-----------------------------------------+
+      |                                         |
+      |  Shinyei PPD42  / Grove Dust Sensor     |
+      |  (Sensor facing you)                    |           
+      |                                         |
+      |    |+|        |+|                       |          
+      |    SL2 POT    CN1 POT                   |
+      +-----------------------------------------+
+      |    Pin Number                           |
+      |                                         |          
+      |     |     |     |     |     |           |
+      |     5     4     3     2     1           |       
+      |     |     |     |     |     |           |
+      +-----------------------------------------+
+            |     |     |     |     | 
+            |     |     |     |  GND (Black)
+            |     |     |     |     | 
+            |     |  5V (Red) |     | 
+            |     |     |     |     | 
+            |   PM2.5   |     |     |
+            |     |     |     |     |                 +-----------------------+
+            |     |     |   PM1.0   |                 |Bi-Direction Logic     |
+            |     |     |     |     |                 |Level Converter        |
+            |     |     |     |     |                 +-----------------------+
+       Threshold  |     |     |     +--(1) GND--------|  GND              GND |----[[RPi GND Pin]]
+       for Pin 2  |     |     |                       |                       |
+            |     |     |     +-----(2) PM1.0---------|  B1               A1  |----[[RPi GPIO Pin]]
+            |     |     |                             |                       |
+            |     |     +-----------(3) 5V------+-----|  HV               LV  |----[[RPi 3.3V Pin]]
+            |     |                             |     |                       |
+            |     |                             |     |                       |
+            |     |             [[RPi 5V Pin]]--+     |                       |
+            |     |                                   |                       |
+            |     +-----------------(4) PM2.5---------|  B2               A2  |----[[RPi GPIO Pin]]
+            |                                         +-----------------------+
+            |
+       [[Not used]]
+
+
 Third option is to Pi Hat or Phat like the Pirimoni's Envirohat 
 https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-enviro-phat however this might still require a voltage divider: 
 https://learn.pimoroni.com/static/repos/learn/sandyj/enviro_phat_voltage_divider.png
+Warning: Use a voltage divider at your own risk.
 
+
+      +-----------------------------------------+
+      |                                         |
+      |  Shinyei PPD42  / Grove Dust Sensor     |
+      |  (Sensor facing you)                    |           
+      |                                         |
+      |    |+|        |+|                       |          
+      |    SL2 POT    CN1 POT                   |
+      +-----------------------------------------+
+      |    Pin Number                           |
+      |                                         |          
+      |     |     |     |     |     |           |
+      |     5     4     3     2     1           |       
+      |     |     |     |     |     |           |
+      +-----------------------------------------+
+            |     |     |     |     | 
+            |     |     |     |  GND (Black)
+            |     |     |     |     | 
+            |     |  5V (Red) |     | 
+            |     |     |     |     | 
+            |   PM2.5   |     |     |
+            |     |     |     |     | 
+            |     |     |   PM1.0   |
+            |     |     |     |     |     1 kΩ        1 kΩ resistor
+       Threshold  |     |     |     +----[_____]-----[_____]------+--------> [[Pi GND Pin]]
+       for Pin 2  |     |     |                                   |
+            |     |     |     |                  1 kΩ resistor    |
+            |     |     |     +----------------[_____]------------+--------> [[Pi GPIO Pin 7]]
+            |     |     |                                         |
+            |     |     +-----------------> [[Pi 5V Pin]]         |
+            |     |                                               |
+            |     |                              1 kΩ resistor    |
+            |     +----------------------------[_____]------------+--------> [[Pi GPIO Pin 8]]
+            |
+            |
+       [[Not used]]

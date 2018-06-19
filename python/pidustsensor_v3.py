@@ -18,6 +18,9 @@
 # $ python pidustsensor.py
 # or
 # $ python3 pidustsensor.py
+#
+# Other packages to install for storing the data and presenting graph data
+# $ sudo apt-get install python python3 python3-matplotlib python-matplotlib python3-flask python-flask python3-numpy python-numpy nano git lighttpd sqlite3 sqlite3-dev
 
 ####### Wiring Options ######################
 # +-----------------------------------------+

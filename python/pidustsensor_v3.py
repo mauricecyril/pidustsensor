@@ -5,8 +5,79 @@
 # Public Domain
 # Original Script from http://abyz.co.uk/rpi/pigpio/examples.html
 # Adaptions from https://github.com/andy-pi/weather-monitor/blob/master/air_quality.py
+# http://www.shinyei.co.jp/stc/eng/optical/main_ppd42.html
+# Detectable Particle Size: Over 1.0µm
+#
+# http://lantaukwcounter.blogspot.com/2015/10/pdd42-sensor-can-it-measure-pm10-and.html
+# P1 for particles > 1 micron, P2 for particles > 2.5 micron
 
 
+######
+# The micrometre (International spelling as used by the International Bureau of Weights and Measures;
+# SI symbol: μm) or micrometer (American spelling), also commonly known as a micron, 
+# is an SI derived unit of length equaling 1×10−6 metre (SI standard prefix "micro-" = 10−6); 
+# that is, one millionth of a metre (or one thousandth of a millimetre, 0.001 mm, or about 0.000039 inch).
+
+###### Particle Size Discrimination by PPD42NJ (January 29th, 2013)
+# https://i.publiclab.org/system/images/photos/000/010/160/original/Size_Discrimination%28PPD42NJ%29.pdf
+#
+# Discrimination of particle size can be done using a special method with our Particle Sensor, Model
+# PPD42NJ.
+#
+# PPD42NJ has dual pulse output which works as follows;
+# 1) Receptor receives scattered light from the particle, as a pulse.
+# 2) Each raw pulse is amplified by an op-amp so that pulse can be acknowledged clearly.
+# 3) PPD42NJ has 2 fixed threshold; voltage = 1V for P1 and voltage = 2.5V for P2.
+# The threshold represents detecting size of particles, (approx) 1 micron or larger, and (approx.)2.5
+# micron or larger sized particles respectively.
+# 
+# With PPD42NJ you can read each selected pulse, selected with 2 threshold detection voltage 1V and
+# 2.5V which was converted to Lo Pulse directly at the same time.
+#
+# PPD42NJ also has a port enabling the user to set the alternative threshold detection voltage directly.
+# (In other words, a threshold detection voltage 2.5V will be replaced with your designated alternative
+# voltage.)
+
+# As you may understand from above 3), you can have 2 different minimum size particles which will
+# generate a pulse.
+#
+# For example:
+# Particle sizes of cigarette smoke range from 0.01 micron to around 1micron.
+# Particle sizes of house dust range from 1 micron to around 10 micron.
+# 
+# When you use 1V threshold (when you read Lo Pulse output at P1,) PPD42NJ detects particles
+# larger than (approx.) 1 micron.
+# 
+# When you use 2.5V threshold (when you read Lo Pulse output at P2,) PPD42NJ detects partic#les
+# larger than (apporx.) 2.5 micron.
+#
+# Over 1 micron sized particles represents cigarette smoke and house dust.
+#
+# Over 2.5 micron sized particles represents house dust only, because this is over the size range of
+# cigarette smoke particles
+#
+# When you use our PPD42NJ to check unidentified particles in the room, you check the Lo Pulse
+# occupancy time (ratio) over a certain unit time at both P1 and P2.
+#
+# By simple math you can then determine how much of which range of particle sizes there are.
+#
+# Pattern A
+# 1V threshold Lo pulse output occupancy ratio : high
+# 2.5V threshold Lo pulse output occupancy ratio : low or none
+# means you have cigarette smoke at that period.
+#
+# Pattern B
+# 1V threshold Lo pulse output occupancy ratio : high -- (a)
+# 2.5V threshold Lo pulse output occupancy ratio : high --(b)
+# (a) - k*(b) nearly equal 0(zero)
+# means you have house dust at that period
+#
+# Pattern C
+# 1V threshold Lo pulse output occupancy ratio : high -- (a)
+# 2.5V threshold Lo pulse output occupancy ratio : high --(b)
+# (a) - k*(b) still rather high
+# means you have cigarette smoke and house dust at the same time at that period
+	
 ####### Instructions ########################
 # On the Raspbery Pi make sure to install pigpio using Apt
 # $ sudo apt-get install pigpio python-pigpio python3-pigpio

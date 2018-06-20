@@ -106,24 +106,42 @@ Finally, the following equation will convert the number particles per 0.01 cubic
 
 
 Correction factors:
-Humidity Correction		
+Humidity Correction Table
+
 Humidity [%]	Dry Correction	Rain Correction
+
 0-19	            10.1	            6.4
+
 20-24	            8.75	            6.4
+
 25-29	            8	            6.4
+
 30-34	            8	            6.4
+
 35-39	            8	            6.4
+
 40-44	            7	            6.3
+
 45-49	            6	            6.3
+
 50-54	            5.75	            5.7
+
 55-59	            5.5	            5.5
+
 60-64	            5.5	            4.2
+
 65-69	            3.5	            4.1
+
 70-74	            3.5	            3.2
+
 75-79	            3.75	            3.2
+
 80-84	            2.25	            2.1
+
 85-89	            1.5	            2.1
+
 90-94	            0.825	            0.8
+
 95-100	      0.525	            0.5
 
 
@@ -134,6 +152,10 @@ http://www.fijnstofmeter.com/documentatie/Dylos-conversion.pdf
 
 Some conversion algorithms from a dylos air quality sensor:
 http://www.fijnstofmeter.com/documentatie/Dylos-Conversion-Sheet.xlsx
+
+Sheet contains the following alorithm "=($B2*3531.5*(5.89*10^-7)*$F$7*$F$8)"
+
+(Time Elapsed in Seconds) * 3531.5 * (5.89*10^-7) * ((Humidity %) * (Dry or Rain Correction))
 
 
 http://abyz.co.uk/rpi/pigpio/examples.html 

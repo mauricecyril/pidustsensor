@@ -81,6 +81,39 @@ https://andypi.co.uk/2016/08/19/weather-monitoring-part-2-air-quality-sensing-wi
 
 Some good reference on how to calculate readings using the pi and the primary source of where we'll be attempting to use the onion omega platform instead of the raspberry pi. 
 
+Research Paper (2010) from Drexel University, "Air Quality Sensor Network for Philadelphia" by Justin Arling, Kyle O'Connor and Michael Mercieca
+http://www.fijnstofmeter.com/documentatie/Data-Validation.pdf
+
+Correction factors:
+
+Humidity Correction		
+Humidity [%]	Dry Correction	Rain Correction
+0-19	        10.1	        6.4
+20-24	        8.75	        6.4
+25-29	        8	            6.4
+30-34	        8	            6.4
+35-39	        8	            6.4
+40-44	        7	            6.3
+45-49	        6	            6.3
+50-54	        5.75	        5.7
+55-59	        5.5	            5.5
+60-64	        5.5	            4.2
+65-69	        3.5	            4.1
+70-74	        3.5	            3.2
+75-79	        3.75	        3.2
+80-84	        2.25	        2.1
+85-89	        1.5	            2.1
+90-94	        0.825	        0.8
+95-100	        0.525	        0.5
+
+
+
+http://www.fijnstofmeter.com/documentatie/Dylos-conversion.pdf
+
+Some conversion algorithms from a dylos air quality sensor:
+http://www.fijnstofmeter.com/documentatie/Dylos-Conversion-Sheet.xlsx
+
+
 http://abyz.co.uk/rpi/pigpio/examples.html 
 
 https://github.com/andy-pi/weather-monitor/blob/master/air_quality.py 

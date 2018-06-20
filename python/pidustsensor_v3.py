@@ -239,19 +239,19 @@ if __name__ == "__main__":
     from datetime import datetime
     import time
     import pigpio
-    import PPD42NS
+    import pidustsensor_v3 # import this script
 
     pi = pigpio.pi('localhost') # Connect to a remote pi or 'localhost'
 
     # Select the pi GPIO pin that is connected to the sensor
     # For PM2.5 Readings, connected to Pin 4 of the Sensor
     # Make sure to use the Broadcom GPIO Pin number
-    s25 = PPD42NS.sensor(pi, 8)
+    s25 = pidustsensor_v3.sensor(pi, 8)
 
     # Select the pi GPIO pin that is connected to the sensor
     # For PM10 Readings, connected to Pin 2 of the Sensor
     # Make sure to use the Broadcom GPIO Pin number
-    s10 = PPD42NS.sensor(pi, 7)
+    s10 = pidustsensor_v3.sensor(pi, 7)
     
    
     # Option to prompt for filename:
@@ -279,7 +279,7 @@ if __name__ == "__main__":
 
             # do some checks on the concentration reading and print errors
             if (c25 == 1114000.62):
-                print("Error\n")
+                print("PM2.5 Concentration Error\n")
                 continue
 	  
             if c25 < 0:
@@ -292,7 +292,7 @@ if __name__ == "__main__":
             
             # do some checks on the concentration reading and print errors
             if (c10 == 1114000.62):
-                print("Error\n")
+                print("PM10 Concentration Error\n")
                 continue
 	  
             if c10 < 0:
@@ -418,7 +418,7 @@ if __name__ == "__main__":
             data_writer.writerow(aqdata) 
          
             # Print values to console
-            print("timestamp={} ratio={:.1f} for PM10 conc={} PM2.5 particles per 0.01 cubic foot concCount={} PM2.5 Count concSI={} PM2.5 particles per cubic metre aqi={} ratio={:.1f} for PM10 conc={} PM10 particles per 0.01 cubic foot concCount={} PM10 Count concSI={} PM10 particles per cubic metre aqi={}" .
+            print("timestamp={} ratio2.5={:.1f} for PM2.5 conc2.5={} PM2.5 particles per 0.01 cubic foot concCount2.5={} PM2.5 Count concSI2.5={} PM2.5 particles per cubic metre aqi2.5={} ratio10={:.1f} for PM10 conc10={} PM10 particles per 0.01 cubic foot concCount10={} PM10 Count concSI10={} PM10 particles per cubic metre aqi10={}" .
                 format(timestamp, r25, int(c25), int(PM25count), int(concentration_ugm3_pm25), int(aqi25), r10, int(c10), int(PM10count), int(concentration_ugm3_pm10), int(aqi10)))
          
             # Print

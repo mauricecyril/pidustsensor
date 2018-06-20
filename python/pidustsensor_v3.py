@@ -6,10 +6,13 @@
 # Original Script from http://abyz.co.uk/rpi/pigpio/examples.html
 # Adaptions from https://github.com/andy-pi/weather-monitor/blob/master/air_quality.py
 # http://www.shinyei.co.jp/stc/eng/optical/main_ppd42.html
-# Detectable Particle Size: Over 1.0µm
+# Detectable Particle Size: Over 1.0µm, Sensor uses the counting method not weight\
+# Units are measured in pcs/L or pcs/0.01cf
 #
 # http://lantaukwcounter.blogspot.com/2015/10/pdd42-sensor-can-it-measure-pm10-and.html
 # P1 for particles > 1 micron, P2 for particles > 2.5 micron
+# Based on this it might be possible to capture AQI for PM2.5 but not AQI for PM10
+# The script references PM10 but it appears the actual measure is particles greater than 1 micron
 
 
 ######

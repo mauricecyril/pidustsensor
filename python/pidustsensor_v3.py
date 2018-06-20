@@ -418,7 +418,7 @@ if __name__ == "__main__":
             data_writer.writerow(aqdata) 
          
             # Print values to console
-            print("Timestamp of Readings = {} \n PM2.5  Ratio = {:.1f} Conc = {} PM25count = {} µg/m3 = {} PM2.5 AQI = {} \n PM10   Ratio = {:.1f} Conc = {} PM10count = {} µg/m3 = {} PM10 AQI = {} \n " .
+            print("Timestamp of Readings = {} \n PM2.5:  Ratio = {:.1f}, Conc = {} µg/ft3, PM25count = {} µg/ft3, Metric Conc = {} µg/m3, PM2.5 AQI = {} \n PM10:   Ratio = {:.1f}, Conc = {} µg/ft3, PM10count = {} µg/ft3, Metric Conc = {} µg/m3, PM10 AQI = {} \n " .
                 format(timestamp, r25, int(c25), int(PM25count), int(concentration_ugm3_pm25), int(aqi25), r10, int(c10), int(PM10count), int(concentration_ugm3_pm10), int(aqi10)))
          
             # Print

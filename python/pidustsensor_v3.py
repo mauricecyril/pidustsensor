@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
-# PPD42NS.py
-# 2015-11-22
-# Public Domain
-# Original Script from http://abyz.co.uk/rpi/pigpio/examples.html
+# pidustsensor_v3.py
+
+# Derived from PPD42NS.py (2015-11-22 Public Domain) Original Script located at http://abyz.co.uk/rpi/pigpio/examples.html
 # Adaptions from https://github.com/andy-pi/weather-monitor/blob/master/air_quality.py
+
+# Reference Information on Sensor
 # http://www.shinyei.co.jp/stc/eng/optical/main_ppd42.html
 # Detectable Particle Size: Over 1.0µm, Sensor uses the counting method not weight\
 # Units are measured in pcs/L or pcs/0.01cf

@@ -303,8 +303,8 @@ if __name__ == "__main__":
             # Note: Not sure why P10 calculation is subtracted from PM2.5
             # Maybe hreshold input (IN1) is left unsed, but it will be used later as a way to
             # split particule by size, and hence detect both PM10 and PM2.5 particules.
-            PM10count = c10
-            PM25count = c25 - c10 # Not sure why this is required
+            PM10count = c10 - c25   # Not sure if this should be c10 only
+            PM25count = c25         # Not sure if c25 - c10 is required instead
 
 
             # Convert conentrations to µg/ metre cubed
@@ -425,3 +425,9 @@ if __name__ == "__main__":
             
         pi.stop() # Disconnect from Pi.
 
+# Example of values collected
+# PM2.5  Ratio = 13.7 Conc = 9245 PM25count = 9245 µg/m3 = 19 PM2.5 AQI = 65
+# PM10   Ratio = 4.2 Conc = 2179 PM10count = 2179 µg/m3 = 935 PM10 AQI = 500
+#
+# PM2.5  Ratio = 5.1 Conc = 2685 PM25count = 2685 µg/m3 = 5 PM2.5 AQI = 23
+# PM10   Ratio = 5.6 Conc = 2982 PM10count = 2982 µg/m3 = 1279 PM10 AQI = 500

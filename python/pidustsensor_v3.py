@@ -371,11 +371,11 @@ if __name__ == "__main__":
             else:
                 for breakpoint in cbreakpointspm25:
                     if breakpoint[0] <= C <= breakpoint[1]:
-                        Clow = breakpoint[0]
-                        Chigh = breakpoint[1]
-                        Ilow = breakpoint[2]
-                        Ihigh = breakpoint[3]
-                        aqi25 = (((Ihigh-Ilow)/(Chigh-Clow))*(C-Clow))+Ilow
+                        Clow25 = breakpoint[0]
+                        Chigh25 = breakpoint[1]
+                        Ilow25 = breakpoint[2]
+                        Ihigh25 = breakpoint[3]
+                        aqi25 = (((Ihigh25-Ilow25)/(Chigh25-Clow25))*(C-Clow25))+Ilow25
 
 
       
@@ -403,11 +403,11 @@ if __name__ == "__main__":
             else:
                 for breakpoint in cbreakpointspm10:
                     if breakpoint[0] <= D <= breakpoint[1]:
-                        Clow = breakpoint[0]
-                        Chigh = breakpoint[1]
-                        Ilow = breakpoint[2]
-                        Ihigh = breakpoint[3]
-                        aqi10 = (((Ihigh-Ilow)/(Chigh-Clow))*(C-Clow))+Ilow
+                        Clow10 = breakpoint[0]
+                        Chigh10 = breakpoint[1]
+                        Ilow10 = breakpoint[2]
+                        Ihigh10 = breakpoint[3]
+                        aqi10 = (((Ihigh10-Ilow10)/(Chigh10-Clow10))*(D-Clow10))+Ilow10
       
 
          

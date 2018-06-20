@@ -13,6 +13,28 @@
 # P1 for particles > 1 micron, P2 for particles > 2.5 micron
 # Based on this it might be possible to capture AQI for PM2.5 but not AQI for PM10
 # The script references PM10 but it appears the actual measure is particles greater than 1 micron
+#
+# https://www.engineeringtoolbox.com/particle-sizes-d_934.html
+# one micron is one-millionth of a metre
+# 1 micron = 10-6 m
+# 1 micron = 1000 nano metre
+# Airborne particles
+# Airborne particles are solids suspended in the air.
+
+# Larger particles - larger then 100 μm
+# terminal velocities > 0.5 m/s
+# fall out quickly
+# includes hail, snow, insect debris, room dust, soot aggregates, coarse sand, gravel, and sea spray
+
+# Medium-size particles - in the range 1 to 100 μm
+# sedimentation velocities greater than 0.2 m/s
+# settles out slowly
+# includes fine ice crystals, pollen, hair, large bacteria, windblown dust, fly ash, coal dust, silt, fine sand, and small dust
+
+# Small particles - less than 1 μm
+# falls slowly, take days to years to settle out of a quiet atmosphere. In a turbulent atmosphere they may never settle out
+# can be washed out by water or rain
+# includes viruses, small bacteria, metallurgical fumes, soot, oil smoke, tobacco smoke, clay, and fumes
 
 
 ######

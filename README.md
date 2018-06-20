@@ -138,7 +138,7 @@ http://www.fijnstofmeter.com/documentatie/Dylos-Conversion-Sheet.xlsx
 
 Sheet contains the following alorithm "=($B2*3531.5*(5.89*10^-7)*$F$7*$F$8)"
 
-(Time Elapsed in Seconds) * 3531.5 * (5.89*10^-7) * ((Humidity %) * (Dry or Rain Correction))
+(Particle Count #) * 3531.5 * (5.89*10^-7) * ((Humidity %) * (Dry or Rain Correction))
 
 #### Other references for calculations and using the sensor on the raspberry pi
 http://abyz.co.uk/rpi/pigpio/examples.html 

@@ -303,7 +303,7 @@ if __name__ == "__main__":
             # Note: Not sure why P10 calculation is subtracted from PM2.5
             # Maybe hreshold input (IN1) is left unsed, but it will be used later as a way to
             # split particule by size, and hence detect both PM10 and PM2.5 particules.
-            PM10count = c10 - c25   # Not sure if this should be c10 only
+            PM10count = c10         # Not sure if this should be c10 only
             PM25count = c25         # Not sure if c25 - c10 is required instead
 
 

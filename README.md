@@ -79,10 +79,31 @@ https://github.com/otonchev/grove_dust
 https://andypi.co.uk/2016/08/19/weather-monitoring-part-2-air-quality-sensing-with-shinyei-ppd42ns/
 
 
-Some good reference on how to calculate readings using the pi and the primary source of where we'll be attempting to use the onion omega platform instead of the raspberry pi. 
+Some good reference on how to calculate readings using the pi: 
 
 Research Paper (2010) from Drexel University, "Air Quality Sensor Network for Philadelphia" by Justin Arling, Kyle O'Connor and Michael Mercieca
 http://www.fijnstofmeter.com/documentatie/Data-Validation.pdf
+
+These assumptions for calculations are noted as follows:
+
+• All particles are spherical, with a density of 1.65E12 μg/m3
+
+• The radius of a particle in the PM2.5 channel is 0.44 μm
+
+• The radius of a particle in the PM10 channel is 2.60 μm
+
+• 0.01 ft3 can be converted to m3 by multiplying by 3531.5
+
+With the radius of both particle types known, it is possible to derive the volume and multiply by the particle density. This calculation results in the following approximations of mass for each particle type:
+
+• The mass of a particle in the PM2.5 channel is 5.89E-7 μg
+
+• The mass of a particle in the PM10 channel is 1.21E-4 μg
+
+Finally, the following equation will convert the number particles per 0.01 cubic feet to the number of micrograms per cubic meter and the results can be directly compared with other EPA data:
+
+𝑃𝑀 𝐶𝑜𝑛𝑐𝑒𝑛𝑡𝑟𝑎𝑡𝑖𝑜𝑛 (𝜇𝑔/𝑚3) = 𝑁𝑢𝑚𝑏𝑒𝑟 𝑜𝑓 𝑃𝑎𝑟𝑡𝑖𝑐𝑙𝑒𝑠 × 3531.5 × 𝑃𝑎𝑟𝑡𝑖𝑐𝑙𝑒 𝑀𝑎𝑠s
+
 
 Correction factors:
 Humidity Correction		

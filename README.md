@@ -1,7 +1,7 @@
 # pidustsensor
 Air Quality Monitor using the GROVE / Shinyei PPD42NS dust sensor and the Raspberry Pi 
 
-Pin Layout
+## Pin Layout
 
       +-----------------------------------------+
       |                                         |
@@ -48,7 +48,7 @@ CN : S5B-EH(JST)
 
 
 
-References: 
+# References: 
 
 http://wiki.seeedstudio.com/Grove-Dust_Sensor/ 
 
@@ -65,7 +65,7 @@ http://www.howmuchsnow.com/arduino/airquality/grovedust/
 https://github.com/MattSchroyer/DustDuino
 
 
-Some direction on how to get the sensor running on a Raspberry Pi 
+## Some direction on how to get the sensor running on a Raspberry Pi 
 
 https://github.com/DexterInd/GrovePi 
 
@@ -79,12 +79,12 @@ https://github.com/otonchev/grove_dust
 https://andypi.co.uk/2016/08/19/weather-monitoring-part-2-air-quality-sensing-with-shinyei-ppd42ns/
 
 
-Some good reference on how to calculate readings using the pi: 
+## Some good reference on how to calculate readings using the pi: 
 
-Research Paper (2010) from Drexel University, "Air Quality Sensor Network for Philadelphia" by Justin Arling, Kyle O'Connor and Michael Mercieca
+### Research Paper (2010) from Drexel University, "Air Quality Sensor Network for Philadelphia" by Justin Arling, Kyle O'Connor and Michael Mercieca
 http://www.fijnstofmeter.com/documentatie/Data-Validation.pdf
 
-These assumptions for calculations are noted as follows:
+#### These assumptions for calculations are noted as follows:
 
 • All particles are spherical, with a density of 1.65E12 μg/m3
 
@@ -93,6 +93,7 @@ These assumptions for calculations are noted as follows:
 • The radius of a particle in the PM10 channel is 2.60 μm
 
 • 0.01 ft3 can be converted to m3 by multiplying by 3531.5
+
 
 With the radius of both particle types known, it is possible to derive the volume and multiply by the particle density. This calculation results in the following approximations of mass for each particle type:
 
@@ -105,7 +106,7 @@ Finally, the following equation will convert the number particles per 0.01 cubic
 𝑃𝑀 𝐶𝑜𝑛𝑐𝑒𝑛𝑡𝑟𝑎𝑡𝑖𝑜𝑛 (𝜇𝑔/𝑚3) = 𝑁𝑢𝑚𝑏𝑒𝑟 𝑜𝑓 𝑃𝑎𝑟𝑡𝑖𝑐𝑙𝑒𝑠 × 3531.5 × 𝑃𝑎𝑟𝑡𝑖𝑐𝑙𝑒 𝑀𝑎𝑠s
 
 
-Correction factors:
+#### Correction factors:
 
 Humidity Correction Table
 
@@ -132,14 +133,14 @@ Humidity [%]	|Dry Correction	|Rain Correction
 
 http://www.fijnstofmeter.com/documentatie/Dylos-conversion.pdf
 
-Some conversion algorithms from a dylos air quality sensor:
+#### Some conversion algorithms from a dylos air quality sensor:
 http://www.fijnstofmeter.com/documentatie/Dylos-Conversion-Sheet.xlsx
 
 Sheet contains the following alorithm "=($B2*3531.5*(5.89*10^-7)*$F$7*$F$8)"
 
 (Time Elapsed in Seconds) * 3531.5 * (5.89*10^-7) * ((Humidity %) * (Dry or Rain Correction))
 
-
+#### Other references for calculations and using the sensor on the raspberry pi
 http://abyz.co.uk/rpi/pigpio/examples.html 
 
 https://github.com/andy-pi/weather-monitor/blob/master/air_quality.py 
@@ -150,7 +151,7 @@ https://github.com/andy-pi/weather-monitor/blob/master/pigpio.py
 ================================================================
 
 
-For visualization
+# For visualization
 
 https://www.fullstackpython.com/bokeh.html
 
@@ -163,7 +164,7 @@ https://www.fullstackpython.com/green-unicorn-gunicorn.html
 ================================================================
 
 
-For information on how to use both the PM2.5 and the PM1.0 lines on the sensor see:
+## For information on how to use both the PM2.5 and the PM1.0 lines on the sensor see:
 
 http://aqicn.org/api/shinyei/
 
@@ -175,7 +176,7 @@ https://github.com/aqicn/shinyei-lpo/blob/master/shinyei-lpo-reader.py
 http://aqicn.org/faq/2013-02-02/why-is-pm25-often-higher-than-pm10/
 
 
-Arduino specific but can be used to get calculations
+## Arduino specific but can be used to get calculations
 
 https://github.com/MattSchroyer/DustDuino/blob/master/DustDuino.ino
 
@@ -191,13 +192,13 @@ http://aqicn.org/api/sensor/
 =================================================================
 
 
-Calculations used on PI
+## Calculations used on PI
 
             ratio = float(self._low_ticks)/float(interval)*100.0
             conc = 1.1*pow(ratio,3)-3.8*pow(ratio,2)+520*ratio+0.62;
             
 
-Calculations used on Arduino
+## Calculations used on Arduino
 https://github.com/MattSchroyer/DustDuino/blob/master/DustDuinoSerial.ino
 
       // Generates PM10 and PM2.5 count from LPO.
@@ -238,7 +239,7 @@ https://github.com/MattSchroyer/DustDuino/blob/master/DustDuinoSerial.ino
 
 =================================================================
 
-Wiring
+# Wiring
 
 One method is to use the wiriing method using a voltage divider described by 
 https://github.com/otonchev/grove_dust 

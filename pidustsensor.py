@@ -528,7 +528,7 @@ if __name__ == "__main__":
 
          
             # Store values in a variable
-            aqdata = timestamp, r25, int(c25), int(PM25count), int(concentration_ugm3_pm25), int(aqiPM25), r10, int(c10), int(PM10count), int(concentration_ugm3_pm10), int(aqiPM10)
+            aqdata = timestamp, r25, int(c25), r10, int(c10), int(PM25count), int(concentration_ugm3_pm25), int(PM10count), int(concentration_ugm3_pm10), int(aqiPM25), int(aqiPM10)
          
             # Store values in CSV log file
             data_writer.writerow(aqdata) 

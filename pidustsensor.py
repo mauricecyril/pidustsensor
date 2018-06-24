@@ -432,8 +432,7 @@ if __name__ == "__main__":
 
             if PM25count == 1114000.62:   #If PM25count gets error value set to zero
                 PM25count = 0
-
-
+                
 
             # Convert conentrations measured at µg/ft3 to µg/ metre cubed
             # Convert concentration of PM2.5 and PM1.0 particles per 0.01 cubic feet to µg/ metre cubed

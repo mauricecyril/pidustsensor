@@ -424,13 +424,13 @@ if __name__ == "__main__":
             PM25count = c10 - c25   # Subtract Particle to get concentration of particles greater than 1 micron and less than 2.5 microns          
             
             
-            if PM10count = 1114000.62:   #If PM10count gets error value set to zero
+            if PM10count == 1114000.62:   #If PM10count gets error value set to zero
                 PM10count = 0
                 
             if PM25count < 0:    # If PM25count is less than Zero (Negative Value) set PM25 Count to Zero
                 PM25count = 0
 
-            if PM25count = 1114000.62:   #If PM25count gets error value set to zero
+            if PM25count == 1114000.62:   #If PM25count gets error value set to zero
                 PM25count = 0
 
 

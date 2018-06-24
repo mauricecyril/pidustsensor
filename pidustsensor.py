@@ -539,7 +539,7 @@ if __name__ == "__main__":
             data_writer.writerow(aqdata) 
          
             # Print values to console
-            print("Timestamp of Readings = {} \n PM2.5 (P2 or Pin4):  Ratio = {:.1f}, PM > 2.5 µg PCS Conc = {} µg/ft3 \n PM1.0 (P1 or Pin2):   Ratio = {:.1f}, PM > 1.0 µg PCS Conc = {} µg/ft3 \n Variables used for AQI (Particles 1.0 < 2.5 microns):   PM25count (P1 - P2) = {} µg/ft3, Metric Conc of PM25count = {} µg/m3, \n Variables used in AQI (Particles > 2.5 microns):   PM10count (P2 only) = {} µg/ft3, Metric Conc of PM10count= {} µg/m3 \n AQI Calculations (Needs to be average over 24hours): PM2.5 AQI = {}, PM10 AQI = {} \n " .
+            print("Timestamp of Readings = {} \n PM2.5 (P2 or Pin4):  Ratio = {:.1f}, PM > 2.5 µg PCS Conc = {} µg/ft3 \n PM1.0 (P1 or Pin2):   Ratio = {:.1f}, PM > 1.0 µg PCS Conc = {} µg/ft3 \n Variables used for AQI (Particles 1.0 < 2.5 microns):   PM25count (P1 - P2) = {} µg/ft3, Metric Conc of PM25count = {} µg/m3, \n Variables used in AQI (Particles > 2.5 microns):         PM10count (P2 only) = {} µg/ft3, Metric Conc of PM10count= {} µg/m3 \n AQI Calculations (Needs to be average over 24hours): PM2.5 AQI = {}, PM10 AQI = {} \n " .
                 format(timestamp, r25, int(c25), r10, int(c10), int(PM25count), int(concentration_ugm3_pm25), int(PM10count), int(concentration_ugm3_pm10), int(aqiPM25), int(aqiPM10)))
          
             # Print

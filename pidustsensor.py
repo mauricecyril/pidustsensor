@@ -422,10 +422,16 @@ if __name__ == "__main__":
             # split particule by size, and hence detect both PM1.0 and PM2.5 particules.
             PM10count = c25         # Use the concentrations for particles greater than 2.5
             PM25count = c10 - c25   # Subtract Particle to get concentration of particles greater than 1 micron and less than 2.5 microns          
-
+            
+            
+            if PM10count = 1114000.62:   #If PM10count gets error value set to zero
+                PM10count = 0
+                
             if PM25count < 0:    # If PM25count is less than Zero (Negative Value) set PM25 Count to Zero
                 PM25count = 0
 
+            if PM25count = 1114000.62:   #If PM25count gets error value set to zero
+                PM25count = 0
 
 
 

@@ -411,7 +411,7 @@ if __name__ == "__main__":
 
             # Special Calculations for differentiating between two particulate sizes
             # Particle Size   0.5     0.8     1.0       1.5     2.4     2.5     2.6     3.0     3.5
-            # P2 (PM1.0) (c10 reading)                  |----------------------------------------->
+            # P2 (PM1.0) (c10 reading)        |--------------------------------------------------->
             # P1 (PM2.5) (c25 reading)                                  |------------------------->
             #
             # In theory the counts for particles greater than 1.0 microns should be higher than
@@ -457,8 +457,10 @@ if __name__ == "__main__":
             concentration_ugm3_pm25 = PM25count * 3531.5 * masspm25 # PM25count = c10 - c25
 
             # Convert concentration readings for particles greater than 2.5 microns
-            # Assume the radius of a particle in the PM10 channel is 2.6 µm
-            rpm10 = 2.6 * math.pow(10, -6)
+            ###OLD ### Assume the radius of a particle in the PM10 channel is 2.6 µm
+            ###OLD ### rpm10 = 2.6 * math.pow(10, -6)
+            # Assume the radius of a particle in the PM10 channel is .44 µm
+            rpm10 = 0.44 * math.pow(10, -6)
         
             # Volume of a PM10 sphere = 4/3 * pi * radius^3
             volpm10 = (4/3) * math.pi * (rpm10**3)

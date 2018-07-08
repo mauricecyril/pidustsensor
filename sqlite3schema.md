@@ -30,9 +30,9 @@ If creating a new SQL table, first make sure you have SQLite3 installed:
 $ sudo apt-get install sqlite3 
 ```
 
-Run the SQLite3 Command Prompt:
+Run the SQLite3 Command Prompt and create a new Database called "airqualitylog.db":
 ```shell
-$ sqlite3 airquality.db 
+$ sqlite3 airqualitylog.db 
 ```
 
 Insert the following lines from "CREATE TABLE..." onward:

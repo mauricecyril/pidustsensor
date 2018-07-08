@@ -32,7 +32,7 @@ $ sudo apt-get install sqlite3
 
 Run the SQLite3 Command Prompt:
 ```shell
-$ sqlite3 
+$ sqlite3 airquality.db 
 ```
 
 Insert the following lines from "CREATE TABLE..." onward:
@@ -97,4 +97,7 @@ sqlite> .import /home/pi/airqualitylog_noheader.csv airqualitylog
 
 
 #### Exiting SQLite3 Command Prompt
-Exit the SQLite3 Command Prompt by pressing "Ctrl-D"
+Exit the SQLite3 Command Prompt by pressing "Ctrl-D" or by typing .quit in the prompt
+```shell
+sqlite> .quit
+```

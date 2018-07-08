@@ -103,6 +103,7 @@ sqlite> .quit
 ```
 
 ### How to check data in the database table
+```
 $ sqlite3 airqualitylog.db 
 sqlite> select * from airqualitylog
 ```

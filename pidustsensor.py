@@ -339,6 +339,8 @@ if __name__ == "__main__":
     import time
     import pigpio
     import pidustsensor # import this script
+    import sqlite3
+    import sys
 
     pi = pigpio.pi('localhost') # Connect to a remote pi or 'localhost'
 
@@ -542,6 +544,16 @@ if __name__ == "__main__":
             # Store values in a variable
             aqdata = timestamp, r25, int(c25), r10, int(c10), int(PM25count), int(concentration_ugm3_pm25), int(PM10count), int(concentration_ugm3_pm10), int(aqiPM25), int(aqiPM10)
          
+            # SQLite3 Data Storage
+            con = lite.connect('airqualitylog.db')
+            with con:
+                curs = con.cursor() 
+                curs.execute("INSERT INTO airqualitylog VALUES(timestamp, r25, int(c25), r10, int(c10), int(PM25count), int(concentration_ugm3_pm25), int(PM10count), int(concentration_ugm3_pm10), int(aqiPM25), int(aqiPM10)
+)")  
+            # commit the changes
+            con.commit()
+            con.close()
+            
             # Store values in CSV log file
             data_writer.writerow(aqdata) 
          

@@ -545,10 +545,14 @@ if __name__ == "__main__":
             aqdata = timestamp, r25, int(c25), r10, int(c10), int(PM25count), int(concentration_ugm3_pm25), int(PM10count), int(concentration_ugm3_pm10), int(aqiPM25), int(aqiPM10)
          
             # SQLite3 Data Storage
+            # Create a variable used to connect to the Database
             con = sqlite3.connect('airqualitylog.db')   #Change airqualitylog.db to your database name
+            
+            # Insert the variables used in aqdata into the database
             with con:
                 curs = con.cursor() 
-                curs.execute("INSERT INTO airqualitylog(datetimestamp, r25_db, c25_db, r10_db, c10_db, PM25count_db, concentration_ugm3_pm25_db, PM10count_db, concentration_ugm3_pm10_db, aqiPM25_db, aqiPM10_db) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",(timestamp, r25, c25, r10, c10, PM25count, concentration_ugm3_pm25, PM10count, concentration_ugm3_pm10, aqiPM25, aqiPM10))  
+                curs.execute("INSERT INTO airqualitylog(datetimestamp, r25_db, c25_db, r10_db, c10_db, PM25count_db, concentration_ugm3_pm25_db, PM10count_db, concentration_ugm3_pm10_db, aqiPM25_db, aqiPM10_db) VALUES(?,?,?,?,?,?,?,?,?,?,?)",(timestamp, r25, c25, r10, c10, PM25count, concentration_ugm3_pm25, PM10count, concentration_ugm3_pm10, aqiPM25, aqiPM10))  
+
             # commit the changes
             con.commit()
             con.close()

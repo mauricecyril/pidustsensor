@@ -82,14 +82,14 @@ Delete the first row of the file and save (Ctrl-W or Ctrl-X in Nano).
 The following commands import the airqualitylog_noheader.csv file into the airqualitylog table.
 
 ```shell
-$ sqlite3
+$ sqlite3 airqualitylog.db 
 sqlite> .mode csv
 sqlite> .import /home/pi/airqualitylog_noheader.csv airqualitylog
 ```
 
 Optional: In some cases you might need to Drop the airqualitylog table before importing data. WARNING: If you DROP the table it will purge all data from the table so this should only be done the very first time you are setting up the database for the dust sensor.
 ```shell
-$ sqlite3
+$ sqlite3 airqualitylog.db 
 sqlite> DROP TABLE IF EXISTS airqualitylog;
 sqlite> .mode csv
 sqlite> .import /home/pi/airqualitylog_noheader.csv airqualitylog

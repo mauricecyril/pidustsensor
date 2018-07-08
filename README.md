@@ -180,6 +180,12 @@ http://raspberrywebserver.com/sql-databases/accessing-an-sqlite-database-with-py
 
 https://sebastianraschka.com/Articles/2014_sqlite_in_python_tutorial.html
 
+https://sharedmemorydump.net/logging-data-temperature-with-raspberry-pi
+
+https://randomnerdtutorials.com/sqlite-database-on-a-raspberry-pi/
+
+https://www.hackster.io/mjrobot/from-data-to-graph-a-web-journey-with-flask-and-sqlite-4dba35
+
 
 ================================================================
 

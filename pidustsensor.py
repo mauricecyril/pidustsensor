@@ -548,10 +548,13 @@ if __name__ == "__main__":
             con = sqlite3.connect('airqualitylog.db')   #Change airqualitylog.db to your database name
             with con:
                 curs = con.cursor() 
-                curs.execute("INSERT INTO airqualitylog(datetimestamp, r25_db, c25_db, r10_db, c10_db, PM25count_db, concentration_ugm3_pm25_db, PM10count_db, concentration_ugm3_pm10_db, aqiPM25_db, aqiPM10_db) VALUES(timestamp, r25, c25, r10, c10, PM25count, concentration_ugm3_pm25, PM10count, concentration_ugm3_pm10, aqiPM25, aqiPM10) );")  
+                curs.execute("INSERT INTO airqualitylog(datetimestamp, r25_db, c25_db, r10_db, c10_db, PM25count_db, concentration_ugm3_pm25_db, PM10count_db, concentration_ugm3_pm10_db, aqiPM25_db, aqiPM10_db) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",(timestamp, r25, c25, r10, c10, PM25count, concentration_ugm3_pm25, PM10count, concentration_ugm3_pm10, aqiPM25, aqiPM10))  
             # commit the changes
             con.commit()
             con.close()
+
+           c.execute("INSERT INTO stuffToPlot (unix, datestamp, keyword, value) VALUES (?, ?, ?, ?)",(unix, date, keyword, value))
+
             
             # Store values in CSV log file
             data_writer.writerow(aqdata) 

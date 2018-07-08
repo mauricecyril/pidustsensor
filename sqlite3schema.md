@@ -6,9 +6,9 @@ The GROVE / Shinyei PPD42NS dust sensor gets a reading every 30 seconds (2 readi
 
 
 
-Table Name		|Column Name		        |Data Type			|Description
-----------------|---------------------------|-------------------|----------------------------------------------
-airqualitylog	|timestamp			        |Text               |Date Time Stamp
+Table Name		|Column Name		            |Data Type			    |Description
+--------------|---------------------------|-------------------|----------------------------------------------
+airqualitylog	|timestamp			            |Text               |Date Time Stamp
 airqualitylog	|r25                        |Integer            |Ratio for PM2.5 (P2 or Pin4) (r25)
 airqualitylog	|c25                        |Integer            |Raw Readings of PM2.5 Concentration (PCS per 0.01 cubic foot) (c25)
 airqualitylog	|r10                        |Integer            |Ratio for PM1.0 (P1 or Pin2) (r10)
@@ -23,7 +23,7 @@ airqualitylog	|aqiPM10                    |Integer            |US AQI for PM10 (
 
 
 
-
+```SQL
 -- airqualitylog table
 CREATE TABLE IF NOT EXISTS airqualitylog (
  timestamp text NOT NULL,
@@ -38,3 +38,4 @@ CREATE TABLE IF NOT EXISTS airqualitylog (
  aqiPM25 integer NOT NULL,
  aqiPM10 integer NOT NULL,
 );
+```

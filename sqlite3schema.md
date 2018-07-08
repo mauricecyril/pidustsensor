@@ -53,14 +53,38 @@ CREATE TABLE IF NOT EXISTS airqualitylog (
 );
 ```
 
+or enter each line in the prompt as follows:
+```
+sqlite> CREATE TABLE IF NOT EXISTS airqualitylog (
+   ...>  datetimestamp text NOT NULL,
+   ...>  r25 integer NOT NULL,
+   ...>  c25 integer NOT NULL,
+   ...>  r10 integer NOT NULL,
+   ...>  c10 integer NOT NULL,
+   ...>  PM25count integer NOT NULL,
+   ...>  concentration_ugm3_pm25 integer NOT NULL,
+   ...>  PM10count integer NOT NULL,
+   ...>  concentration_ugm3_pm10 integer NOT NULL,
+   ...>  aqiPM25 integer NOT NULL,
+   ...>  aqiPM10 integer NOT NULL
+   ...> );
+```
+
 #### If Importing Data from an Existing CSV file
 If importing data from an existing CSV file make sure to delete the header row from the CSV file before importing.
-
-The following commands import the airqualitylog.csv file into the airqualitylog table.
-
+```shell
+$ cp airqualitylog.csv airqualitylog_noheader.csv
+$ nano airqualitylog_noheader.csv
 ```
+Delete the first row of the file and save (Ctrl-W or Ctrl-X in Nano).
+
+
+The following commands import the airqualitylog_noheader.csv file into the airqualitylog table.
+
+```shell
+$ sqlite3
 sqlite> .mode csv
-sqlite> .import /home/pi/airqualitylog.csv airqualitylog
+sqlite> .import /home/pi/airqualitylog_noheader.csv airqualitylog
 ```
 
 #### Exiting SQLite3 Command Prompt

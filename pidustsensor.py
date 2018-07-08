@@ -552,9 +552,6 @@ if __name__ == "__main__":
             # commit the changes
             con.commit()
             con.close()
-
-           c.execute("INSERT INTO stuffToPlot (unix, datestamp, keyword, value) VALUES (?, ?, ?, ?)",(unix, date, keyword, value))
-
             
             # Store values in CSV log file
             data_writer.writerow(aqdata) 

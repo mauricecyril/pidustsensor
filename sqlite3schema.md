@@ -101,3 +101,8 @@ Exit the SQLite3 Command Prompt by pressing "Ctrl-D" or by typing .quit in the p
 ```shell
 sqlite> .quit
 ```
+
+### How to check data in the database table
+$ sqlite3 airqualitylog.db 
+sqlite> select * from airqualitylog
+```

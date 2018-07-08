@@ -163,6 +163,26 @@ https://www.fullstackpython.com/green-unicorn-gunicorn.html
 
 ================================================================
 
+# For Storing on SQL Database
+http://www.sqlitetutorial.net/sqlite-date/
+
+http://www.sqlitetutorial.net/sqlite-import-csv/
+
+http://www.sqlitetutorial.net/sqlite-python/create-tables/
+
+http://www.geothread.net/using-sqlite-on-a-raspberry-pi/
+
+https://www.piprojects.xyz/store-visualize-sensor-data/
+
+http://raspberrywebserver.com/cgiscripting/rpi-temperature-logger/building-an-sqlite-temperature-logger.html
+
+http://raspberrywebserver.com/sql-databases/accessing-an-sqlite-database-with-python.html
+
+https://sebastianraschka.com/Articles/2014_sqlite_in_python_tutorial.html
+
+
+================================================================
+
 
 ## For information on how to use both the PM2.5 and the PM1.0 lines on the sensor see:
 

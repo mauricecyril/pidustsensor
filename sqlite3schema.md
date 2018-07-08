@@ -87,5 +87,14 @@ sqlite> .mode csv
 sqlite> .import /home/pi/airqualitylog_noheader.csv airqualitylog
 ```
 
+Optional: In some cases you might need to Drop the airqualitylog table before importing data. WARNING: If you DROP the table it will purge all data from the table so this should only be done the very first time you are setting up the database for the dust sensor.
+```shell
+$ sqlite3
+sqlite> DROP TABLE IF EXISTS airqualitylog;
+sqlite> .mode csv
+sqlite> .import /home/pi/airqualitylog_noheader.csv airqualitylog
+```
+
+
 #### Exiting SQLite3 Command Prompt
 Exit the SQLite3 Command Prompt by pressing "Ctrl-D"

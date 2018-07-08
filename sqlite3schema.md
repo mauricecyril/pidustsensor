@@ -1,6 +1,6 @@
 Max Rows in SQLITE3 = 9,223,372,036,854,775,807
 There are 1440 Minutes in a 24 hour day
-The GROVE / Shinyei PPD42NS dust sensor gets a reading every 30 seconds (2 readings every minute), so anticipate 2880 readings a day. 
+The GROVE / Shinyei PPD42NS dust sensor gets a reading every 30 seconds (2 readings every minute), so anticipate 2880 readings a day. Which allows us to get readings for a maximum of 3,202,559,735,019,020 days, or 8,774,136,260,326 years.
 
 
 

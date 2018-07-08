@@ -36,6 +36,6 @@ CREATE TABLE IF NOT EXISTS airqualitylog (
  PM10count integer NOT NULL,
  concentration_ugm3_pm10 integer NOT NULL,
  aqiPM25 integer NOT NULL,
- aqiPM10 integer NOT NULL,
+ aqiPM10 integer NOT NULL
 );
 ```

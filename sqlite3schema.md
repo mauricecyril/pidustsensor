@@ -11,16 +11,16 @@ The GROVE / Shinyei PPD42NS dust sensor gets a reading every 30 seconds (2 readi
 Table Name		|Column Name		            |Data Type			    |Description
 --------------|---------------------------|-------------------|----------------------------------------------
 airqualitylog	|datetimestamp			        |Text               |Date Time Stamp
-airqualitylog	|r25                        |Integer            |Ratio for PM2.5 (P2 or Pin4) (r25)
-airqualitylog	|c25                        |Integer            |Raw Readings of PM2.5 Concentration (PCS per 0.01 cubic foot) (c25)
-airqualitylog	|r10                        |Integer            |Ratio for PM1.0 (P1 or Pin2) (r10)
-airqualitylog	|c10                        |Integer            |Raw readings of PM1.0 Concentration (PCS  per 0.01 cubic foot) (c10)
-airqualitylog	|PM25count                  |Integer            |Concentration Count for Particles Greater than 1µg and Less than 2.5µ (PCS per 0.01 cubic foot) (PM25count = c10 - c25)
-airqualitylog	|concentration_ugm3_pm25    |Integer            |SI PM2.5 Concentration (PCS per cubic metre) (concentration_ugm3_pm25)
-airqualitylog	|PM10count                  |Integer            |Concentration Count for Particles greater than 2.5 µg (PCS per 0.01 cubic foot) (PM10count = c25)
-airqualitylog	|concentration_ugm3_pm10    |Integer            |SI PM10 Concentration (PCS per cubic metre)(concentration_ugm3_pm10)
-airqualitylog	|aqiPM25                    |Integer            |US AQI for PM2.5 (Should be average of a 24h reading)
-airqualitylog	|aqiPM10                    |Integer            |US AQI for PM10 (Should be average of a 24h reading)
+airqualitylog	|r25_db                     |Integer            |Ratio for PM2.5 (P2 or Pin4) (r25)
+airqualitylog	|c25_db                     |Integer            |Raw Readings of PM2.5 Concentration (PCS per 0.01 cubic foot) (c25)
+airqualitylog	|r10_db                     |Integer            |Ratio for PM1.0 (P1 or Pin2) (r10)
+airqualitylog	|c10_db                     |Integer            |Raw readings of PM1.0 Concentration (PCS  per 0.01 cubic foot) (c10)
+airqualitylog	|PM25count_db               |Integer            |Concentration Count for Particles Greater than 1µg and Less than 2.5µ (PCS per 0.01 cubic foot) (PM25count = c10 - c25)
+airqualitylog	|concentration_ugm3_pm25_db |Integer            |SI PM2.5 Concentration (PCS per cubic metre) (concentration_ugm3_pm25)
+airqualitylog	|PM10count_db               |Integer            |Concentration Count for Particles greater than 2.5 µg (PCS per 0.01 cubic foot) (PM10count = c25)
+airqualitylog	|concentration_ugm3_pm10_db |Integer            |SI PM10 Concentration (PCS per cubic metre)(concentration_ugm3_pm10)
+airqualitylog	|aqiPM25_db                 |Integer            |US AQI for PM2.5 (Should be average of a 24h reading)
+airqualitylog	|aqiPM10_db                 |Integer            |US AQI for PM10 (Should be average of a 24h reading)
 
 
 ### Creating a New SQL Table
@@ -40,16 +40,16 @@ Insert the following lines from "CREATE TABLE..." onward:
 -- airqualitylog table
 CREATE TABLE IF NOT EXISTS airqualitylog (
  datetimestamp text NOT NULL,
- r25 integer NOT NULL,
- c25 integer NOT NULL,
- r10 integer NOT NULL,
- c10 integer NOT NULL,
- PM25count integer NOT NULL,
- concentration_ugm3_pm25 integer NOT NULL,
- PM10count integer NOT NULL,
- concentration_ugm3_pm10 integer NOT NULL,
- aqiPM25 integer NOT NULL,
- aqiPM10 integer NOT NULL
+ r25_db integer NOT NULL,
+ c25_db integer NOT NULL,
+ r10_db integer NOT NULL,
+ c10_db integer NOT NULL,
+ PM25count_db integer NOT NULL,
+ concentration_ugm3_pm25_db integer NOT NULL,
+ PM10count_db integer NOT NULL,
+ concentration_ugm3_pm10_db integer NOT NULL,
+ aqiPM25_db integer NOT NULL,
+ aqiPM10_db integer NOT NULL
 );
 ```
 
@@ -57,16 +57,16 @@ or enter each line in the prompt as follows:
 ```
 sqlite> CREATE TABLE IF NOT EXISTS airqualitylog (
    ...>  datetimestamp text NOT NULL,
-   ...>  r25 integer NOT NULL,
-   ...>  c25 integer NOT NULL,
-   ...>  r10 integer NOT NULL,
-   ...>  c10 integer NOT NULL,
-   ...>  PM25count integer NOT NULL,
-   ...>  concentration_ugm3_pm25 integer NOT NULL,
-   ...>  PM10count integer NOT NULL,
-   ...>  concentration_ugm3_pm10 integer NOT NULL,
-   ...>  aqiPM25 integer NOT NULL,
-   ...>  aqiPM10 integer NOT NULL
+   ...>  r25_db integer NOT NULL,
+   ...>  c25_db integer NOT NULL,
+   ...>  r10_db integer NOT NULL,
+   ...>  c10_db integer NOT NULL,
+   ...>  PM25count_db integer NOT NULL,
+   ...>  concentration_ugm3_pm25_db integer NOT NULL,
+   ...>  PM10count_db integer NOT NULL,
+   ...>  concentration_ugm3_pm10_db integer NOT NULL,
+   ...>  aqiPM25_db integer NOT NULL,
+   ...>  aqiPM10_db integer NOT NULL
    ...> );
 ```
 

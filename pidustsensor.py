@@ -347,12 +347,12 @@ if __name__ == "__main__":
     # Select the pi GPIO pin that is connected to the sensor
     # For PM2.5 Readings, connected to Pin 4 of the Sensor
     # Make sure to use the Broadcom GPIO Pin number
-    s25 = pidustsensor.sensor(pi, 8)
+    s25 = pidustsensor.sensor(pi, 18)
 
     # Select the pi GPIO pin that is connected to the sensor
     # For PM1.0 Readings, connected to Pin 2 of the Sensor
     # Make sure to use the Broadcom GPIO Pin number
-    s10 = pidustsensor.sensor(pi, 7)
+    s10 = pidustsensor.sensor(pi, 17)
     
    
     # Option to prompt for filename:

@@ -20,14 +20,14 @@ sudo apt-get -y upgrade
 sudo apt-get -y dist-upgrade
 
 # Install basic packages
-# sudo apt-get -y install git zip unzip tar bzip2 nano byobu screen tmux
+sudo apt-get -y install git zip unzip tar bzip2 nano byobu screen tmux
 
 # Install PIGPIO
-# sudo apt-get -y pigpio 
+sudo apt-get -y install pigpio 
 
 # Install Python related Packages
-# python python-pip python-gpiozero python-pigpio ptyhon-django python-flask
-# python3 python3-pip python3-gpiozero python3-pigpio python3-django python3-flask python3-pandas python3-pandas-lib python3-numpy python3-matplotlib
+sudo apt-get -y install python python-pip python-gpiozero python-pigpio ptyhon-django python-flask
+sudo apt-get -y install python3 python3-pip python3-gpiozero python3-pigpio python3-django python3-flask python3-pandas python3-pandas-lib python3-numpy python3-matplotlib
 
 # Packages needed if a captive portal is needed:
 # sudo apt-get -y install lighttpd dnsmasq isc-dhcp-server hostapd perl php-cgi avahi-daemon 

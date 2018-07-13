@@ -360,7 +360,7 @@ if __name__ == "__main__":
     ##with open(logfilename + '.csv', 'w', newline='') as f:
 
     # Create a specific and static csv log file
-    with open('airqualitylog.csv', 'w', newline='') as f:
+    with open('/media/pi/airqualitylog.csv', 'w', newline='') as f:
     # Remove the above line if you want to use the prompt for logfile name function
 		
         data_writer = writer(f)
@@ -546,16 +546,16 @@ if __name__ == "__main__":
          
             # SQLite3 Data Storage
             # Create a variable used to connect to the Database
-            con = sqlite3.connect('airqualitylog.db')   #Change airqualitylog.db to your database name
+            #con = sqlite3.connect('airqualitylog.db')   #Change airqualitylog.db to your database name
             
             # Insert the variables used in aqdata into the database
-            with con:
-                curs = con.cursor() 
-                curs.execute("INSERT INTO airqualitylog(datetimestamp, r25_db, c25_db, r10_db, c10_db, PM25count_db, concentration_ugm3_pm25_db, PM10count_db, concentration_ugm3_pm10_db, aqiPM25_db, aqiPM10_db) VALUES(?,?,?,?,?,?,?,?,?,?,?)",(timestamp, r25, c25, r10, c10, PM25count, concentration_ugm3_pm25, PM10count, concentration_ugm3_pm10, aqiPM25, aqiPM10))  
+            #with con:
+             #   curs = con.cursor() 
+              #  curs.execute("INSERT INTO airqualitylog(datetimestamp, r25_db, c25_db, r10_db, c10_db, PM25count_db, concentration_ugm3_pm25_db, PM10count_db, concentration_ugm3_pm10_db, aqiPM25_db, aqiPM10_db) VALUES(?,?,?,?,?,?,?,?,?,?,?)",(timestamp, r25, c25, r10, c10, PM25count, concentration_ugm3_pm25, PM10count, concentration_ugm3_pm10, aqiPM25, aqiPM10))  
 
             # commit the changes
-            con.commit()
-            con.close()
+           # con.commit()
+            #con.close()
             
             # Store values in CSV log file
             data_writer.writerow(aqdata) 

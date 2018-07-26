@@ -169,7 +169,7 @@ if __name__ == "__main__":
     ##with open(logfilename + '.csv', 'w', newline='') as f:
 
     # Create a specific and static csv log file
-    with open('/media/pi/airqualitylog.csv', 'w', newline='') as f:
+    with open('/media/pi/envirosensorlog.csv', 'w', newline='') as f:
     # Remove the above line if you want to use the prompt for logfile name function
 		
         data_writer = writer(f)

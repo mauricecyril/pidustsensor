@@ -187,8 +187,8 @@ if __name__ == "__main__":
             # Maybe hreshold input (IN1) is left unsed, but it will be used later as a way to
             # split particule by size, and hence detect both PM1.0 and PM2.5 particules.
             PM10count = c25         # Use the concentrations for particles greater than 2.5
-            PM25count = c10 - c25   # Subtract Particle to get concentration of particles greater than 1 micron and less than 2.5 microns          
-            
+            # PM25count = c10 - c25   # Subtract Particle to get concentration of particles greater than 1 micron and less than 2.5 microns          
+            PM25count = c25
             
             if PM10count == 1114000.62:   #If PM10count gets error value set to zero
                 PM10count = 0

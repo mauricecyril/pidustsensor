@@ -216,12 +216,12 @@ if __name__ == "__main__":
          
             # SQLite3 Data Storage
             # Create a variable used to connect to the Database
-            #con = sqlite3.connect('airqualitylog.db')   #Change airqualitylog.db to your database name
+            #con = sqlite3.connect('envirosensorlog.db')   #Change envirosensorlog.db to your database name
             
             # Insert the variables used in aqdata into the database
             #with con:
             #   curs = con.cursor() 
-            #  curs.execute("INSERT INTO airqualitylog(datetimestamp, r25_db, c25_db, r10_db, c10_db, temp_db, pres_db, hum_db, gas_db) VALUES(?,?,?,?,?,?,?,?,?)",(timestamp, r25, c25, r10, c10, temp, pres, hum, gas))  
+            #  curs.execute("INSERT INTO envirosensorlog(datetimestamp, r25_db, c25_db, r10_db, c10_db, temp_db, pres_db, hum_db, gas_db) VALUES(?,?,?,?,?,?,?,?,?)",(timestamp, r25, c25, r10, c10, temp, pres, hum, gas))  
             
             # commit the changes
             # con.commit()

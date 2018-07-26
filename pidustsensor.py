@@ -6,242 +6,6 @@
 # Derived from PPD42NS.py (2015-11-22 Public Domain) Original Script located at http://abyz.co.uk/rpi/pigpio/examples.html
 # Adaptions from https://github.com/andy-pi/weather-monitor/blob/master/air_quality.py
 
-# Reference Information on Sensor
-# http://www.shinyei.co.jp/stc/eng/optical/main_ppd42.html
-# Detectable Particle Size: Over 1.0µm, Sensor uses the counting method not weight\
-# Units are measured in pcs/L or pcs/0.01cf
-#
-# http://lantaukwcounter.blogspot.com/2015/10/pdd42-sensor-can-it-measure-pm10-and.html
-# P1 for particles > 1 micron, P2 for particles > 2.5 micron
-# Based on this it might be possible to capture AQI for PM2.5 but not AQI for PM10
-# The script references PM10 but it appears the actual measure is particles greater than 1 micron
-#
-# https://www.engineeringtoolbox.com/particle-sizes-d_934.html
-# one micron is one-millionth of a metre
-# 1 micron = 10-6 m
-# 1 micron = 1000 nano metre
-
-# Airborne particles
-# Airborne particles are solids suspended in the air.
-
-# Larger particles - larger then 100 μm
-# terminal velocities > 0.5 m/s
-# fall out quickly
-# includes hail, snow, insect debris, room dust, soot aggregates, coarse sand, gravel, and sea spray
-
-# Medium-size particles - in the range 1 to 100 μm
-# sedimentation velocities greater than 0.2 m/s
-# settles out slowly
-# includes fine ice crystals, pollen, hair, large bacteria, windblown dust, fly ash, coal dust, silt, fine sand, and small dust
-
-# Small particles - less than 1 μm
-# falls slowly, take days to years to settle out of a quiet atmosphere. In a turbulent atmosphere they may never settle out
-# can be washed out by water or rain
-# includes viruses, small bacteria, metallurgical fumes, soot, oil smoke, tobacco smoke, clay, and fumes
-
-
-######
-# The micrometre (International spelling as used by the International Bureau of Weights and Measures;
-# SI symbol: μm) or micrometer (American spelling), also commonly known as a micron, 
-# is an SI derived unit of length equaling 1×10−6 metre (SI standard prefix "micro-" = 10−6); 
-# that is, one millionth of a metre (or one thousandth of a millimetre, 0.001 mm, or about 0.000039 inch).
-
-###### Particle Size Discrimination by PPD42NJ (January 29th, 2013)
-# https://i.publiclab.org/system/images/photos/000/010/160/original/Size_Discrimination%28PPD42NJ%29.pdf
-#
-# Discrimination of particle size can be done using a special method with our Particle Sensor, Model
-# PPD42NJ.
-#
-# PPD42NJ has dual pulse output which works as follows;
-# 1) Receptor receives scattered light from the particle, as a pulse.
-# 2) Each raw pulse is amplified by an op-amp so that pulse can be acknowledged clearly.
-# 3) PPD42NJ has 2 fixed threshold; voltage = 1V for P1 and voltage = 2.5V for P2.
-# The threshold represents detecting size of particles, (approx) 1 micron or larger, and (approx.) 2.5
-# micron or larger sized particles respectively.
-# 
-# With PPD42NJ you can read each selected pulse, selected with 2 threshold detection voltage 1V and
-# 2.5V which was converted to Lo Pulse directly at the same time.
-#
-# PPD42NJ also has a port enabling the user to set the alternative threshold detection voltage directly.
-# (In other words, a threshold detection voltage 2.5V will be replaced with your designated alternative
-# voltage.)
-
-# As you may understand from above 3), you can have 2 different minimum size particles which will
-# generate a pulse.
-#
-# For example:
-# Particle sizes of cigarette smoke range from 0.01 micron to around 1micron.
-# Particle sizes of house dust range from 1 micron to around 10 micron.
-# 
-# When you use 1V threshold (when you read Lo Pulse output at P1,) PPD42NJ detects particles
-# larger than (approx.) 1 micron.
-# 
-# When you use 2.5V threshold (when you read Lo Pulse output at P2,) PPD42NJ detects partic#les
-# larger than (apporx.) 2.5 micron.
-#
-# Over 1 micron sized particles represents cigarette smoke and house dust.
-#
-# Over 2.5 micron sized particles represents house dust only, because this is over the size range of
-# cigarette smoke particles
-#
-# When you use our PPD42NJ to check unidentified particles in the room, you check the Lo Pulse
-# occupancy time (ratio) over a certain unit time at both P1 and P2.
-#
-# By simple math you can then determine how much of which range of particle sizes there are.
-#
-# Pattern A
-# 1V threshold Lo pulse output occupancy ratio : high
-# 2.5V threshold Lo pulse output occupancy ratio : low or none
-# means you have cigarette smoke at that period.
-#
-# Pattern B
-# 1V threshold Lo pulse output occupancy ratio : high -- (a)
-# 2.5V threshold Lo pulse output occupancy ratio : high --(b)
-# (a) - k*(b) nearly equal 0(zero)
-# means you have house dust at that period
-#
-# Pattern C
-# 1V threshold Lo pulse output occupancy ratio : high -- (a)
-# 2.5V threshold Lo pulse output occupancy ratio : high --(b)
-# (a) - k*(b) still rather high
-# means you have cigarette smoke and house dust at the same time at that period
-	
-####### Instructions ########################
-# On the Raspbery Pi make sure to install pigpio using Apt
-# $ sudo apt-get install pigpio python-pigpio python3-pigpio
-#
-# Once installed make sure to run the pidpio daemon before
-# running this script
-#
-# $ sudo pigpiod
-# $ python pidustsensor.py
-# or
-# $ python3 pidustsensor.py
-#
-# Other packages to install for storing the data and presenting graph data
-# $ sudo apt-get install python python3 python3-matplotlib python-matplotlib python3-flask python-flask python3-numpy python-numpy nano git lighttpd sqlite3 sqlite3-dev
-
-####### Wiring Options ######################
-# +-----------------------------------------+
-#  |                                         |
-#  |  Shinyei PPD42NS  / Grove Dust Sensor   |
-#  |  (Sensor components facing you          |           
-#  |                                         |
-#  |    |+|        |+|                       |          
-#  |    SL2 POT    CN1 POT                   |
-#  +-----------------------------------------+
-#  |    Pin Number                           |
-#  |                                         |          
-#  |     |     |     |     |     |           |
-#  |     5     4     3     2     1           |       
-#  |     |     |     |     |     |           |
-#  +-----------------------------------------+
-#        |     |     |     |     | 
-#        |     |     |     |  GND (Black)
-#        |     |     |     |     | 
-#        |     |  5V (Red) |     | 
-#        |     |     |     |     | 
-#        |   PM2.5   |     |     |
-#        |     |     |     |     | 
-#        |     |     |   PM1.0   |
-#        |     |     |     |     |
-#   Threshold  |     |     |     |
-#   for Pin 2  |     |     |     | 
-#        |     |     |     |     | 
-#        |     |     |     |     | 
-#
-# CN : S5B-EH(JST)
-# 1 : COMMON(GND) [Black Wire on Grove Sensor]
-# 2 : OUTPUT(P2) [Not used on Grove Connectr] [Can be used for PM1.0]
-# 3 : INPUT(5VDC 90mA) [Red Wire on Grove Sensor]
-# 4 : OUTPUT(P1) [Yellow Wire on Grove Sensor] [Used for PM2.5 mesurements]
-# 5 : INPUT(T1)･･･FOR THRESHOLD FOR [P2] [Not used on Grove Connector]
-#############################################
-
-
-
-# Using a Bi-Directional Logic Level Converter
-#  +-----------------------------------------+
-#  |                                         |
-#  |  Shinyei PPD42  / Grove Dust Sensor     |
-#  |  (Sensor facing you)                    |           
-#  |                                         |
-# |    |+|        |+|                       |          
-#  |    SL2 POT    CN1 POT                   |
-#  +-----------------------------------------+
-#  |    Pin Number                           |
-#  |                                         |          
-#  |     |     |     |     |     |           |
-#  |     5     4     3     2     1           |       
-#  |     |     |     |     |     |           |
-#  +-----------------------------------------+
-#        |     |     |     |     | 
-#        |     |     |     |  GND (Black)
-#        |     |     |     |     | 
-#        |     |  5V (Red) |     | 
-#        |     |     |     |     | 
-#        |   PM2.5   |     |     |
-#        |     |     |     |     |                 +-----------------------+
-#        |     |     |   PM1.0   |                 |Bi-Direction Logic     |
-#        |     |     |     |     |                 |Level Converter        |
-#        |     |     |     |     |                 +-----------------------+
-#   Threshold  |     |     |     +--(1) GND--------|  GND              GND |----[[RPi GND Pin]]
-#   for Pin 2  |     |     |                       |                       |
-#        |     |     |     +-----(2) PM1.0---------|  B1               A1  |----[[RPi GPIO Pin]]
-#        |     |     |                             |                       |
-#        |     |     +-----------(3) 5V------+-----|  HV               LV  |----[[RPi 3.3V Pin]]
-#        |     |                             |     |                       |
-#        |     |                             |     |                       |
-#        |     |             [[RPi 5V Pin]]--+     |                       |
-#        |     |                                   |                       |
-#        |     +-----------------(4) PM2.5---------|  B2               A2  |----[[RPi GPIO Pin]]
-#        |                                         +-----------------------+
-#        |
-#   [[Not used]]
-#
-#
-#############################################
-
-
-# Using a Voltage Divider (At your own risk)
-#
-#  +-----------------------------------------+
-#  |                                         |
-#  |  Shinyei PPD42  / Grove Dust Sensor     |
-#  |  (Sensor facing you)                    |           
-#  |                                         |
-#  |    |+|        |+|                       |          
-#  |    SL2 POT    CN1 POT                   |
-#  +-----------------------------------------+
-#  |    Pin Number                           |
-#  |                                         |          
-#  |     |     |     |     |     |           |
-#  |     5     4     3     2     1           |       
-#  |     |     |     |     |     |           |
-#  +-----------------------------------------+
-#        |     |     |     |     | 
-#        |     |     |     |  GND (Black)
-#        |     |     |     |     | 
-#        |     |  5V (Red) |     | 
-#        |     |     |     |     | 
-#        |   PM2.5   |     |     |
-#        |     |     |     |     | 
-#        |     |     |   PM1.0   |
-#        |     |     |     |     |     1 kΩ        1 kΩ resistor
-#   Threshold  |     |     |     +----[_____]-----[_____]------+--------> [[Pi GND Pin]]
-#   for Pin 2  |     |     |                                   |
-#        |     |     |     |                  1 kΩ resistor    |
-#        |     |     |     +----------------[_____]------------+--------> [[Pi GPIO Pin 7]]
-#        |     |     |                                         |
-#        |     |     +-----------------> [[Pi 5V Pin]]         |
-#        |     |                                               |
-#        |     |                              1 kΩ resistor    |
-#        |     +----------------------------[_____]------------+--------> [[Pi GPIO Pin 8]]
-#        |
-#        |
-#   [[Not used]]
-#
-#
 #############################################
 
 from __future__ import print_function
@@ -568,3 +332,241 @@ if __name__ == "__main__":
             
         pi.stop() # Disconnect from Pi.
 
+
+# Reference Information on Sensor
+# http://www.shinyei.co.jp/stc/eng/optical/main_ppd42.html
+# Detectable Particle Size: Over 1.0µm, Sensor uses the counting method not weight\
+# Units are measured in pcs/L or pcs/0.01cf
+#
+# http://lantaukwcounter.blogspot.com/2015/10/pdd42-sensor-can-it-measure-pm10-and.html
+# P1 for particles > 1 micron, P2 for particles > 2.5 micron
+# Based on this it might be possible to capture AQI for PM2.5 but not AQI for PM10
+# The script references PM10 but it appears the actual measure is particles greater than 1 micron
+#
+# https://www.engineeringtoolbox.com/particle-sizes-d_934.html
+# one micron is one-millionth of a metre
+# 1 micron = 10-6 m
+# 1 micron = 1000 nano metre
+
+# Airborne particles
+# Airborne particles are solids suspended in the air.
+
+# Larger particles - larger then 100 μm
+# terminal velocities > 0.5 m/s
+# fall out quickly
+# includes hail, snow, insect debris, room dust, soot aggregates, coarse sand, gravel, and sea spray
+
+# Medium-size particles - in the range 1 to 100 μm
+# sedimentation velocities greater than 0.2 m/s
+# settles out slowly
+# includes fine ice crystals, pollen, hair, large bacteria, windblown dust, fly ash, coal dust, silt, fine sand, and small dust
+
+# Small particles - less than 1 μm
+# falls slowly, take days to years to settle out of a quiet atmosphere. In a turbulent atmosphere they may never settle out
+# can be washed out by water or rain
+# includes viruses, small bacteria, metallurgical fumes, soot, oil smoke, tobacco smoke, clay, and fumes
+
+
+######
+# The micrometre (International spelling as used by the International Bureau of Weights and Measures;
+# SI symbol: μm) or micrometer (American spelling), also commonly known as a micron, 
+# is an SI derived unit of length equaling 1×10−6 metre (SI standard prefix "micro-" = 10−6); 
+# that is, one millionth of a metre (or one thousandth of a millimetre, 0.001 mm, or about 0.000039 inch).
+
+###### Particle Size Discrimination by PPD42NJ (January 29th, 2013)
+# https://i.publiclab.org/system/images/photos/000/010/160/original/Size_Discrimination%28PPD42NJ%29.pdf
+#
+# Discrimination of particle size can be done using a special method with our Particle Sensor, Model
+# PPD42NJ.
+#
+# PPD42NJ has dual pulse output which works as follows;
+# 1) Receptor receives scattered light from the particle, as a pulse.
+# 2) Each raw pulse is amplified by an op-amp so that pulse can be acknowledged clearly.
+# 3) PPD42NJ has 2 fixed threshold; voltage = 1V for P1 and voltage = 2.5V for P2.
+# The threshold represents detecting size of particles, (approx) 1 micron or larger, and (approx.) 2.5
+# micron or larger sized particles respectively.
+# 
+# With PPD42NJ you can read each selected pulse, selected with 2 threshold detection voltage 1V and
+# 2.5V which was converted to Lo Pulse directly at the same time.
+#
+# PPD42NJ also has a port enabling the user to set the alternative threshold detection voltage directly.
+# (In other words, a threshold detection voltage 2.5V will be replaced with your designated alternative
+# voltage.)
+
+# As you may understand from above 3), you can have 2 different minimum size particles which will
+# generate a pulse.
+#
+# For example:
+# Particle sizes of cigarette smoke range from 0.01 micron to around 1micron.
+# Particle sizes of house dust range from 1 micron to around 10 micron.
+# 
+# When you use 1V threshold (when you read Lo Pulse output at P1,) PPD42NJ detects particles
+# larger than (approx.) 1 micron.
+# 
+# When you use 2.5V threshold (when you read Lo Pulse output at P2,) PPD42NJ detects partic#les
+# larger than (apporx.) 2.5 micron.
+#
+# Over 1 micron sized particles represents cigarette smoke and house dust.
+#
+# Over 2.5 micron sized particles represents house dust only, because this is over the size range of
+# cigarette smoke particles
+#
+# When you use our PPD42NJ to check unidentified particles in the room, you check the Lo Pulse
+# occupancy time (ratio) over a certain unit time at both P1 and P2.
+#
+# By simple math you can then determine how much of which range of particle sizes there are.
+#
+# Pattern A
+# 1V threshold Lo pulse output occupancy ratio : high
+# 2.5V threshold Lo pulse output occupancy ratio : low or none
+# means you have cigarette smoke at that period.
+#
+# Pattern B
+# 1V threshold Lo pulse output occupancy ratio : high -- (a)
+# 2.5V threshold Lo pulse output occupancy ratio : high --(b)
+# (a) - k*(b) nearly equal 0(zero)
+# means you have house dust at that period
+#
+# Pattern C
+# 1V threshold Lo pulse output occupancy ratio : high -- (a)
+# 2.5V threshold Lo pulse output occupancy ratio : high --(b)
+# (a) - k*(b) still rather high
+# means you have cigarette smoke and house dust at the same time at that period
+	
+####### Instructions ########################
+# On the Raspbery Pi make sure to install pigpio using Apt
+# $ sudo apt-get install pigpio python-pigpio python3-pigpio
+#
+# Once installed make sure to run the pidpio daemon before
+# running this script
+#
+# $ sudo pigpiod
+# $ python pidustsensor.py
+# or
+# $ python3 pidustsensor.py
+#
+# Other packages to install for storing the data and presenting graph data
+# $ sudo apt-get install python python3 python3-matplotlib python-matplotlib python3-flask python-flask python3-numpy python-numpy nano git lighttpd sqlite3 sqlite3-dev
+
+####### Wiring Options ######################
+# +-----------------------------------------+
+#  |                                         |
+#  |  Shinyei PPD42NS  / Grove Dust Sensor   |
+#  |  (Sensor components facing you          |           
+#  |                                         |
+#  |    |+|        |+|                       |          
+#  |    SL2 POT    CN1 POT                   |
+#  +-----------------------------------------+
+#  |    Pin Number                           |
+#  |                                         |          
+#  |     |     |     |     |     |           |
+#  |     5     4     3     2     1           |       
+#  |     |     |     |     |     |           |
+#  +-----------------------------------------+
+#        |     |     |     |     | 
+#        |     |     |     |  GND (Black)
+#        |     |     |     |     | 
+#        |     |  5V (Red) |     | 
+#        |     |     |     |     | 
+#        |   PM2.5   |     |     |
+#        |     |     |     |     | 
+#        |     |     |   PM1.0   |
+#        |     |     |     |     |
+#   Threshold  |     |     |     |
+#   for Pin 2  |     |     |     | 
+#        |     |     |     |     | 
+#        |     |     |     |     | 
+#
+# CN : S5B-EH(JST)
+# 1 : COMMON(GND) [Black Wire on Grove Sensor]
+# 2 : OUTPUT(P2) [Not used on Grove Connectr] [Can be used for PM1.0]
+# 3 : INPUT(5VDC 90mA) [Red Wire on Grove Sensor]
+# 4 : OUTPUT(P1) [Yellow Wire on Grove Sensor] [Used for PM2.5 mesurements]
+# 5 : INPUT(T1)･･･FOR THRESHOLD FOR [P2] [Not used on Grove Connector]
+#############################################
+
+
+
+# Using a Bi-Directional Logic Level Converter
+#  +-----------------------------------------+
+#  |                                         |
+#  |  Shinyei PPD42  / Grove Dust Sensor     |
+#  |  (Sensor facing you)                    |           
+#  |                                         |
+# |    |+|        |+|                       |          
+#  |    SL2 POT    CN1 POT                   |
+#  +-----------------------------------------+
+#  |    Pin Number                           |
+#  |                                         |          
+#  |     |     |     |     |     |           |
+#  |     5     4     3     2     1           |       
+#  |     |     |     |     |     |           |
+#  +-----------------------------------------+
+#        |     |     |     |     | 
+#        |     |     |     |  GND (Black)
+#        |     |     |     |     | 
+#        |     |  5V (Red) |     | 
+#        |     |     |     |     | 
+#        |   PM2.5   |     |     |
+#        |     |     |     |     |                 +-----------------------+
+#        |     |     |   PM1.0   |                 |Bi-Direction Logic     |
+#        |     |     |     |     |                 |Level Converter        |
+#        |     |     |     |     |                 +-----------------------+
+#   Threshold  |     |     |     +--(1) GND--------|  GND              GND |----[[RPi GND Pin]]
+#   for Pin 2  |     |     |                       |                       |
+#        |     |     |     +-----(2) PM1.0---------|  B1               A1  |----[[RPi GPIO Pin]]
+#        |     |     |                             |                       |
+#        |     |     +-----------(3) 5V------+-----|  HV               LV  |----[[RPi 3.3V Pin]]
+#        |     |                             |     |                       |
+#        |     |                             |     |                       |
+#        |     |             [[RPi 5V Pin]]--+     |                       |
+#        |     |                                   |                       |
+#        |     +-----------------(4) PM2.5---------|  B2               A2  |----[[RPi GPIO Pin]]
+#        |                                         +-----------------------+
+#        |
+#   [[Not used]]
+#
+#
+#############################################
+
+
+# Using a Voltage Divider (At your own risk)
+#
+#  +-----------------------------------------+
+#  |                                         |
+#  |  Shinyei PPD42  / Grove Dust Sensor     |
+#  |  (Sensor facing you)                    |           
+#  |                                         |
+#  |    |+|        |+|                       |          
+#  |    SL2 POT    CN1 POT                   |
+#  +-----------------------------------------+
+#  |    Pin Number                           |
+#  |                                         |          
+#  |     |     |     |     |     |           |
+#  |     5     4     3     2     1           |       
+#  |     |     |     |     |     |           |
+#  +-----------------------------------------+
+#        |     |     |     |     | 
+#        |     |     |     |  GND (Black)
+#        |     |     |     |     | 
+#        |     |  5V (Red) |     | 
+#        |     |     |     |     | 
+#        |   PM2.5   |     |     |
+#        |     |     |     |     | 
+#        |     |     |   PM1.0   |
+#        |     |     |     |     |     1 kΩ        1 kΩ resistor
+#   Threshold  |     |     |     +----[_____]-----[_____]------+--------> [[Pi GND Pin]]
+#   for Pin 2  |     |     |                                   |
+#        |     |     |     |                  1 kΩ resistor    |
+#        |     |     |     +----------------[_____]------------+--------> [[Pi GPIO Pin 7]]
+#        |     |     |                                         |
+#        |     |     +-----------------> [[Pi 5V Pin]]         |
+#        |     |                                               |
+#        |     |                              1 kΩ resistor    |
+#        |     +----------------------------[_____]------------+--------> [[Pi GPIO Pin 8]]
+#        |
+#        |
+#   [[Not used]]
+#
+#
+#############################################

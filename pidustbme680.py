@@ -17,6 +17,7 @@ import math
 import pigpio
 import bme680
 import time
+from Adafruit_IO import Client, RequestError, Feed
 # also import writer for writing CSV logs
 from csv import writer
 
@@ -106,6 +107,7 @@ class sensor:
 if __name__ == "__main__":
 
     from datetime import datetime
+    from Adafruit_IO import Client, RequestError, Feed
     import time
     import bme680
     import pigpio

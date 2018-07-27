@@ -4,6 +4,7 @@
 # GNU General Public License v3.0
 
 # Script to log Shinyei PPD42  / Grove Dust Sensor and Pimoroni / BOSCH BME680 breakout
+# Readings are stored on a CSV file and SQLite3 DB
 # Derived from PPD42NS.py (2015-11-22 Public Domain) Original Script located at http://abyz.co.uk/rpi/pigpio/examples.html
 # Adaptions from https://github.com/andy-pi/weather-monitor/blob/master/air_quality.py
 # Added https://shop.pimoroni.com/products/bme680-breakout scripts from https://github.com/pimoroni/bme680/blob/master/examples/read-all.py

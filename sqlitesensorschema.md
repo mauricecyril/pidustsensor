@@ -30,7 +30,7 @@ $ sqlite3 envirosensorlog.db
 Insert the following lines from "CREATE TABLE..." onward:
 ```SQL
 -- envirosensorlog table
-CREATE TABLE IF NOT EXISTS airqualitylog (
+CREATE TABLE IF NOT EXISTS envirosensorlog (
  datetimestamp text NOT NULL,
  r25_db integer NOT NULL,
  c25_db integer NOT NULL,

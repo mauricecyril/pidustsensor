@@ -115,30 +115,7 @@ if __name__ == "__main__":
     import sqlite3
     import sys
     
-    # Setup Adafruit IO
-    
-    # Set to your Adafruit IO key.
-    # Remember, your key is a secret,
-    # so make sure not to publish it when you publish this code!
-    ADAFRUIT_IO_KEY = 'YOUR_AIO_KEY'
-
-    # Set to your Adafruit IO username.
-    # (go to https://accounts.adafruit.com to find your username)
-    ADAFRUIT_IO_USERNAME = 'YOUR_AIO_USERNAME'
-
-    # Create an instance of the REST client.
-    aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
-
-    # Assign a feed for each environment sensor reading
-    # Makes sure that these feeds have been setup already
-    io_c25 = aio.feeds('c25')
-    io_c10 = aio.feeds('c10')
-    io_temp = aio.feeds('temp')
-    io_pres = aio.feeds('pres')
-    io_hum = aio.feeds('hum')
-    io_gas = aio.feeds('gas')
-        
-    
+      
     # Setup BME680 Sensor
     sensor = bme680.BME680()
     
@@ -190,7 +167,34 @@ if __name__ == "__main__":
     # Make sure to use the Broadcom GPIO Pin number
     s10 = pidustbme680.sensor(pi, 17)
     
-   
+    # Setup Adafruit IO
+    # Set to your Adafruit IO key.
+    # Remember, your key is a secret,
+    # so make sure not to publish it when you publish this code!
+    ADAFRUIT_IO_KEY = 'YOUR_AIO_KEY'
+
+    # Set to your Adafruit IO username.
+    # (go to https://accounts.adafruit.com to find your username)
+    ADAFRUIT_IO_USERNAME = 'YOUR_AIO_USERNAME'
+
+    # Create an instance of the REST client.
+    aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
+
+    # Assign a feed for each environment sensor reading
+    # Make sure that these feeds have been setup already
+    # 
+    # Example: io_c25 = aio.feeds('environment-sensor.c25')
+    # In above example the "group" is "environment-sensor"
+    # And the "feed" name is "c25"
+
+    io_c25 = aio.feeds('environment-sensor.c25')
+    io_c10 = aio.feeds('environment-sensor.c10')
+    io_temp = aio.feeds('environment-sensor.temp')
+    io_pres = aio.feeds('environment-sensor.pres')
+    io_hum = aio.feeds('environment-sensor.hum')
+    io_gas = aio.feeds('environment-sensor.gas')
+    
+    
     # Option to prompt for filename:
     ##logfilename = input("Please enter a name for the logfile.") 
     ##with open(logfilename + '.csv', 'w', newline='') as f:

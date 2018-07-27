@@ -113,6 +113,30 @@ if __name__ == "__main__":
     import sqlite3
     import sys
     
+    # Setup Adafruit IO
+    
+    # Set to your Adafruit IO key.
+    # Remember, your key is a secret,
+    # so make sure not to publish it when you publish this code!
+    ADAFRUIT_IO_KEY = 'YOUR_AIO_KEY'
+
+    # Set to your Adafruit IO username.
+    # (go to https://accounts.adafruit.com to find your username)
+    ADAFRUIT_IO_USERNAME = 'YOUR_AIO_USERNAME'
+
+    # Create an instance of the REST client.
+    aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
+
+    # Assign a feed for each environment sensor reading
+    # Makes sure that these feeds have been setup already
+    io_c25 = aio.feeds('c25')
+    io_c10 = aio.feeds('c10')
+    io_temp = aio.feeds('temp')
+    io_pres = aio.feeds('pres')
+    io_hum = aio.feeds('hum')
+    io_gas = aio.feeds('gas')
+        
+    
     # Setup BME680 Sensor
     sensor = bme680.BME680()
     
@@ -242,8 +266,16 @@ if __name__ == "__main__":
             con.close()
             
             # Store values in CSV log file
-            data_writer.writerow(aqdata) 
-         
+            data_writer.writerow(aqdata)
+            
+            # Send values to ADAFRUIT.IO
+            aio.send_data(io_c25.key, c25)
+            aio.send_data(io_c10.key, c10)
+            aio.send_data(io_temp.key, temp)
+            aio.send_data(io_pres.key, pres)
+            aio.send_data(io_hum.key, hum)
+            aio.send_data(io_gas.key, gas)
+            
             # Print values to console
             print("Timestamp of Readings = {} \n PM2.5 (P2 or Pin4):  Ratio = {:.1f}, PM > 2.5 µg PCS Conc = {} µg/ft3  \n PM1.0 (P1 or Pin2):   Ratio = {:.1f}, PM > 1.0 µg PCS Conc = {} µg/ft3 \n BME 680 Readings:   Temp = {:.2f} C, Pressure = {:.2f} hPa, Humidity = {:.2f} %RH, Gas Resistance = {} Ohms  \n " .
                 format(timestamp, r25, int(c25), r10, int(c10), temp, pres, hum, gas))

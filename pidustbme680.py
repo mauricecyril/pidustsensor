@@ -201,7 +201,7 @@ if __name__ == "__main__":
   
                 else:
                     gas = 0
-            
+
             
             # Read the PM2.5 values from the sensor. Particles Greater than 2.5 micrometers.
             # get the gpio, ratio and concentration in particles / 0.01 ft3
@@ -210,22 +210,35 @@ if __name__ == "__main__":
             # Read the PM1.0 values from the sensor. Particles Greater than 1 micrometers.
             # get the gpio, ratio and concentration in particles / 0.01 ft3
             g10, r10, c10 = s10.read()
-         
+
+            # Fix Errors if the Shinyei PPD42NS  / Grove Dust Sensor Returns an error
+            if r25 == 100.00:
+                r25 = 0
+                
+            if c25 == 1114000.62:
+                c25 = 0
+                
+            if r10 == 100.00:
+                r10 = 0
+                
+            if c10 == 1114000.62:
+                c10 = 0
+            
             # Store values in a variable
             aqdata = timestamp, r25, int(c25), r10, int(c10), temp, pres, hum, gas
          
             # SQLite3 Data Storage
             # Create a variable used to connect to the Database
-            #con = sqlite3.connect('envirosensorlog.db')   #Change envirosensorlog.db to your database name
+            con = sqlite3.connect('envirosensorlog.db')   #Change envirosensorlog.db to your database name
             
             # Insert the variables used in aqdata into the database
-            #with con:
-            #   curs = con.cursor() 
-            #  curs.execute("INSERT INTO envirosensorlog(datetimestamp, r25_db, c25_db, r10_db, c10_db, temp_db, pres_db, hum_db, gas_db) VALUES(?,?,?,?,?,?,?,?,?)",(timestamp, r25, c25, r10, c10, temp, pres, hum, gas))  
+            with con:
+                curs = con.cursor() 
+                curs.execute("INSERT INTO envirosensorlog(datetimestamp, r25_db, c25_db, r10_db, c10_db, temp_db, pres_db, hum_db, gas_db) VALUES(?,?,?,?,?,?,?,?,?)",(timestamp, r25, c25, r10, c10, temp, pres, hum, gas))  
             
             # commit the changes
-            # con.commit()
-            #con.close()
+            con.commit()
+            con.close()
             
             # Store values in CSV log file
             data_writer.writerow(aqdata) 

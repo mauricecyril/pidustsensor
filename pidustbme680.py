@@ -115,14 +115,14 @@ if __name__ == "__main__":
     # Setup BME680 Sensor
     sensor = bme680.BME680()
     
-    print("Calibration data:")
-    for name in dir(sensor.calibration_data):
+    #print("Calibration data:")
+    #for name in dir(sensor.calibration_data):
 
-        if not name.startswith('_'):
-            value = getattr(sensor.calibration_data, name)
+    #    if not name.startswith('_'):
+    #        value = getattr(sensor.calibration_data, name)
 
-        if isinstance(value, int):
-            print("{}: {}".format(name, value))
+    #    if isinstance(value, int):
+    #        print("{}: {}".format(name, value))
 
     # These oversampling settings can be tweaked to 
     # change the balance between accuracy and noise in

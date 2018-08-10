@@ -274,13 +274,28 @@ if __name__ == "__main__":
             # Store values in CSV log file
             data_writer.writerow(aqdata)
             
-            # Send values to ADAFRUIT.IO
-            aio.send_data(io_c25.key, c25)
-            aio.send_data(io_c10.key, c10)
-            aio.send_data(io_temp.key, temp)
-            aio.send_data(io_pres.key, pres)
-            aio.send_data(io_hum.key, hum)
-            aio.send_data(io_gas.key, gas)
+            # Send values to ADAFRUIT.IO or pass if error
+            try:
+                aio.send_data(io_c25.key, c25)
+                aio.send_data(io_c10.key, c10)
+                aio.send_data(io_temp.key, temp)
+                aio.send_data(io_pres.key, pres)
+                aio.send_data(io_hum.key, hum)
+                aio.send_data(io_gas.key, gas)
+            except ConnectionError:
+                pass
+            except MaxRetryError:
+                pass
+            except BrokenPipeError:
+                pass
+            except ConnectionAbortedError:
+                pass
+            except ConnectionRefusedError:
+                pass
+            except ConnectionResetError:
+                pass
+            except TimeoutError:
+                pass
             
             # Print values to console
             print("Timestamp of Readings = {} \n PM2.5 (P2 or Pin4):  Ratio = {:.1f}, PM > 2.5 µg PCS Conc = {} µg/ft3  \n PM1.0 (P1 or Pin2):   Ratio = {:.1f}, PM > 1.0 µg PCS Conc = {} µg/ft3 \n BME 680 Readings:   Temp = {:.2f} C, Pressure = {:.2f} hPa, Humidity = {:.2f} %RH, Gas Resistance = {} Ohms  \n " .

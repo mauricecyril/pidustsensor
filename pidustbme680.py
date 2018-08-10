@@ -112,7 +112,6 @@ if __name__ == "__main__":
     import bme680
     import pigpio
     import pidustbme680 # import this script
-    import sqlite3
     import sys
     
       
@@ -195,100 +194,64 @@ if __name__ == "__main__":
     io_gas = aio.feeds('environment-sensor.gas')
     
     
-    # Option to prompt for filename:
-    ##logfilename = input("Please enter a name for the logfile.") 
-    ##with open(logfilename + '.csv', 'w', newline='') as f:
-
-    # Create a specific and static csv log file
-    with open('/media/pi/envirosensorlog.csv', 'w', newline='') as f:
-    # Remove the above line if you want to use the prompt for logfile name function
-		
-        data_writer = writer(f)
-        #write header for csv log file
-        data_writer.writerow(['Date Time Stamp',
-                              'Ratio for PM2.5 (P2 or Pin4) (r25)',
-                              'Raw Readings of PM2.5 Concentration (PCS per 0.01 cubic foot) (c25)',
-                              'Ratio for PM1.0 (P1 or Pin2) (r10)',
-                              'Raw readings of PM1.0 Concentration (PCS  per 0.01 cubic foot) (c10)',
-                              'Temperature (Celsius)',
-                              'Pressure (hPa)',
-                              'Humidity (%RH)',
-                              'Gas Resistance (Ohms)'])
-
-        while True:
+    while True:
         
-            time.sleep(30) # Use 30 for a properly calibrated reading.
+        time.sleep(30) # Use 30 for a properly calibrated reading.
 
-            # Get the current time of the reading
-            timestamp = datetime.now()
+        # Get the current time of the reading
+        timestamp = datetime.now()
                        
-            if sensor.get_sensor_data():
-                temp = sensor.data.temperature
-                pres = sensor.data.pressure
-                hum = sensor.data.humidity
+        if sensor.get_sensor_data():
+            temp = sensor.data.temperature
+            pres = sensor.data.pressure
+            hum = sensor.data.humidity
   
-                if sensor.data.heat_stable:
-                    gas = sensor.data.gas_resistance
+            if sensor.data.heat_stable:
+                gas = sensor.data.gas_resistance
   
-                else:
-                    gas = 0
+            else:
+                gas = 0
 
             
-            # Read the PM2.5 values from the sensor. Particles Greater than 2.5 micrometers.
-            # get the gpio, ratio and concentration in particles / 0.01 ft3
-            g25, r25, c25 = s25.read()
+        # Read the PM2.5 values from the sensor. Particles Greater than 2.5 micrometers.
+        # get the gpio, ratio and concentration in particles / 0.01 ft3
+        g25, r25, c25 = s25.read()
 
-            # Read the PM1.0 values from the sensor. Particles Greater than 1 micrometers.
-            # get the gpio, ratio and concentration in particles / 0.01 ft3
-            g10, r10, c10 = s10.read()
+        # Read the PM1.0 values from the sensor. Particles Greater than 1 micrometers.
+        # get the gpio, ratio and concentration in particles / 0.01 ft3
+        g10, r10, c10 = s10.read()
 
-            # Fix Errors if the Shinyei PPD42NS  / Grove Dust Sensor Returns an error
-            if r25 == 100.00:
-                r25 = 0
+        # Fix Errors if the Shinyei PPD42NS  / Grove Dust Sensor Returns an error
+        if r25 == 100.00:
+            r25 = 0
                 
-            if c25 == 1114000.62:
-                c25 = 0
+        if c25 == 1114000.62:
+            c25 = 0
                 
-            if r10 == 100.00:
-                r10 = 0
+        if r10 == 100.00:
+            r10 = 0
                 
-            if c10 == 1114000.62:
-                c10 = 0
+        if c10 == 1114000.62:
+            c10 = 0
             
-            # Store values in a variable
-            aqdata = timestamp, r25, int(c25), r10, int(c10), temp, pres, hum, gas
-         
-            # SQLite3 Data Storage
-            # Create a variable used to connect to the Database
-            con = sqlite3.connect('envirosensorlog.db')   #Change envirosensorlog.db to your database name
+        # Store values in a variable
+        aqdata = timestamp, r25, int(c25), r10, int(c10), temp, pres, hum, gas
             
-            # Insert the variables used in aqdata into the database
-            with con:
-                curs = con.cursor() 
-                curs.execute("INSERT INTO envirosensorlog(datetimestamp, r25_db, c25_db, r10_db, c10_db, temp_db, pres_db, hum_db, gas_db) VALUES(?,?,?,?,?,?,?,?,?)",(timestamp, r25, c25, r10, c10, temp, pres, hum, gas))  
+        # Send values to ADAFRUIT.IO
+        aio.send_data(io_c25.key, c25)
+        aio.send_data(io_c10.key, c10)
+        aio.send_data(io_temp.key, temp)
+        aio.send_data(io_pres.key, pres)
+        aio.send_data(io_hum.key, hum)
+        aio.send_data(io_gas.key, gas)
             
-            # commit the changes
-            con.commit()
-            con.close()
-            
-            # Store values in CSV log file
-            data_writer.writerow(aqdata)
-            
-            # Send values to ADAFRUIT.IO
-            aio.send_data(io_c25.key, c25)
-            aio.send_data(io_c10.key, c10)
-            aio.send_data(io_temp.key, temp)
-            aio.send_data(io_pres.key, pres)
-            aio.send_data(io_hum.key, hum)
-            aio.send_data(io_gas.key, gas)
-            
-            # Print values to console
-            print("Timestamp of Readings = {} \n PM2.5 (P2 or Pin4):  Ratio = {:.1f}, PM > 2.5 µg PCS Conc = {} µg/ft3  \n PM1.0 (P1 or Pin2):   Ratio = {:.1f}, PM > 1.0 µg PCS Conc = {} µg/ft3 \n BME 680 Readings:   Temp = {:.2f} C, Pressure = {:.2f} hPa, Humidity = {:.2f} %RH, Gas Resistance = {} Ohms  \n " .
-                format(timestamp, r25, int(c25), r10, int(c10), temp, pres, hum, gas))
+        # Print values to console
+        print("Timestamp of Readings = {} \n PM2.5 (P2 or Pin4):  Ratio = {:.1f}, PM > 2.5 µg PCS Conc = {} µg/ft3  \n PM1.0 (P1 or Pin2):   Ratio = {:.1f}, PM > 1.0 µg PCS Conc = {} µg/ft3 \n BME 680 Readings:   Temp = {:.2f} C, Pressure = {:.2f} hPa, Humidity = {:.2f} %RH, Gas Resistance = {} Ohms  \n " .
+            format(timestamp, r25, int(c25), r10, int(c10), temp, pres, hum, gas))
            
-            # Print
+        # Print
             
-        pi.stop() # Disconnect from Pi.
+    pi.stop() # Disconnect from Pi.
 
 
 # Reference Information on Sensor

@@ -247,7 +247,7 @@ if __name__ == "__main__":
             aio.send_data(io_gas.key, gas)
         except ConnectionError:
             pass
-        exception MaxRetryError:
+        except MaxRetryError:
             pass
         except BrokenPipeError:
             pass

@@ -193,6 +193,14 @@ if __name__ == "__main__":
     io_hum = aio.feeds('environment-sensor.hum')
     io_gas = aio.feeds('environment-sensor.gas')
     
+    # Sent initial variables to 0 before loop
+    
+    temp = 0
+    pres = 0
+    hum = 0
+    gas = 0
+    
+    # Begin the sampling loop
     
     while True:
         

@@ -8,6 +8,33 @@ import time
 import sys
 import serial
 import sendarduinoserialtoadafruitio.py
+import requests
+
+# Retry Decorator from https://pragmaticcoders.com/blog/retrying-exceptions-handling-internet-connection-problems/
+class NetworkError(RuntimeError):
+    pass
+ 
+def retryer(max_retries=10, timeout=5):
+    def wraps(func):
+        request_exceptions = (
+            requests.exceptions.Timeout,
+            requests.exceptions.ConnectionError,
+            requests.exceptions.HTTPError
+        )
+        def inner(*args, **kwargs):
+            for i in range(max_retries):
+                try:    
+                    result = func(*args, **kwargs)
+                except request_exceptions:
+                    time.sleep(timeout)
+                    continue
+                else:
+                    return result
+            else:
+                raise NetworkError 
+        return inner
+    return wraps
+
 
 
 # Setup Adafruit IO
@@ -41,6 +68,8 @@ ser = serial.Serial('/dev/tty.usbserial', 9600)
 
 # Read Serial and Parse infomation to Adafruit
 
+# Retry Decorator
+@retryer(max_retries=500, timeout=12)
 # Start Loop
 while True:
     timestamp = datetime.now()

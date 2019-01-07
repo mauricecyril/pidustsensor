@@ -32,7 +32,7 @@ aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
 
 io_LPO = aio.feeds('environment-sensor.ardlpo')
 io_RATIO = aio.feeds('environment-sensor.ardratio')
-io_CONC = aio.feeds('environment-sensor.artconc')
+io_CONC = aio.feeds('environment-sensor.ardconc')
 
 
 # Setup Serial Connection
